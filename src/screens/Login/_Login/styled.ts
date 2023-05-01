@@ -24,4 +24,9 @@ export const Components = {
     font-size: 20px;
     font-weight: bold;
   `,
+
+  Text: styled.Text`
+    font-size: 20px;
+    color: ${COLORS.gray};
+  `,
 };
