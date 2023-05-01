@@ -16,18 +16,17 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "bundleIdentifier": "com.anonymous.CalorieTracker"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "googleServicesFile": "./google-services.json"
+      "package": "com.anonymous.CalorieTracker"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "plugins": ["@react-native-google-signin/google-signin"],
+    }
   }
 }
