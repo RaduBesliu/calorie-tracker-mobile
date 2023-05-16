@@ -1,10 +1,11 @@
-import { createContext } from 'react';
+import { createContext, MutableRefObject } from 'react';
+import { User } from '../../api/types/user';
 
 export interface AuthContextType {
   login: () => Promise<void>;
   logout: () => Promise<void>;
   isLoggedIn: boolean;
-  user: any;
+  user: User | undefined;
   userJWT: string | undefined;
 }
 

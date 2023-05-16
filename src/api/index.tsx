@@ -39,6 +39,7 @@ export const apiFetch = async ({
     // If the path is /login, send a POST request with the token as a query parameter
     if (path === '/login') {
       console.log('[API] Login request');
+      console.log(BACKEND_URL + path, `?token=${(body as any).token}`);
       const response = await fetch(BACKEND_URL + path + `?token=${(body as any).token}`, {
         method,
         headers: {

@@ -4,9 +4,15 @@ import { COLORS } from '../../../utils/styled/constants';
 export const Components = {
   Container: styled.View`
     flex: 1;
-    align-items: center;
-    justify-content: center;
     background-color: ${COLORS.black};
+    justify-content: center;
+    align-items: center;
+  `,
+
+  Text: styled.Text`
+    font-size: 30px;
+    color: ${COLORS.green};
+    font-weight: bold;
   `,
 
   Button: styled.TouchableOpacity`
@@ -23,10 +29,5 @@ export const Components = {
   ButtonLabel: styled.Text`
     font-size: 20px;
     font-weight: bold;
-  `,
-
-  Text: styled.Text`
-    font-size: 20px;
-    color: ${COLORS.black};
   `,
 };
