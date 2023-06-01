@@ -4,29 +4,30 @@ import { COLORS } from '../../../utils/styled/constants';
 export const Components = {
   Container: styled.View`
     flex: 1;
-    align-items: center;
-    justify-content: center;
     background-color: ${COLORS.black};
+    align-items: center;
   `,
 
-  Button: styled.TouchableOpacity`
-    width: 50%;
-    height: 40px;
+  ButtonsWrapper: styled.View`
+    margin-top: 16px;
+    width: 100%;
+    height: 48px;
     flex-direction: row;
-    gap: 4px;
-    background-color: ${COLORS.green};
-    justify-content: center;
+    justify-content: space-around;
+  `,
+
+  Button: styled.TouchableOpacity<{ color: string }>`
+    width: 40%;
+    background-color: ${(props) => props.color};
     align-items: center;
+    justify-content: center;
+    padding-vertical: 8px;
     border-radius: 8px;
   `,
 
   ButtonLabel: styled.Text`
+    color: ${COLORS.black};
     font-size: 20px;
     font-weight: bold;
-  `,
-
-  Text: styled.Text`
-    font-size: 20px;
-    color: ${COLORS.black};
   `,
 };

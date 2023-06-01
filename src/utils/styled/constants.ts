@@ -1,7 +1,9 @@
 export const COLORS = {
-  black: '#0A100D',
-  gray: '#D6D5C9',
-  darkGray: '#B9BAA3',
-  red: '#A22C29',
-  darkRed: '#902923',
+  black: '#121619',
+  darkGreen: '#2D4739',
+  green: '#09814A',
+  brown: '#BCB382',
+  gold: '#E5C687',
+
+  red: '#FF0000',
 };

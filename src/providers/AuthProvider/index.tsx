@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import useGoogleLogin from './useGoogleLogin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from './context';
@@ -10,16 +10,16 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { login: googleLogin, logout: googleLogout } = useGoogleLogin();
 
   // States for authentication
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState<User | undefined>(undefined);
+  const [user, setUser] = useState<User | undefined>();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [userJWT, setUserJWT] = useState<string | undefined>();
 
   // Check if user is logged in on app start
   useEffect(() => {
+    console.log('[AUTH] Checking if user is logged in');
     AsyncStorage.getItem('userJWT').then((userJWT) => {
       // If userJWT is found, set userJWT, user and isLoggedIn
       if (userJWT) {
-        setIsLoggedIn(true);
         setUserJWT(userJWT);
 
         // Fetch user data
@@ -38,6 +38,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
         // Log user in with JWT
         console.log('[AUTH] Logged in with JWT', userJWT);
+        setIsLoggedIn(true);
         return;
       }
 
@@ -57,8 +58,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     console.log('----------------');
     console.log('[AUTH] Logged in with JWT', userJWT);
+    console.log('[AUTH] Logged in', isLoggedIn);
     console.log('[AUTH] User', user);
-    console.log('[AUTH] isLoggedIn', isLoggedIn);
     console.log('----------------');
   }, [userJWT, user, isLoggedIn]);
 
@@ -89,9 +90,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
-    // Set userJWT, user and isLoggedIn
-    setIsLoggedIn(true);
+    // Set userJWT, user
     setUserJWT(userJWT);
+    setIsLoggedIn(true);
     await AsyncStorage.setItem('userJWT', userJWT);
 
     // Fetch user data
@@ -100,6 +101,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }).then((data) => {
       if (data) {
         setUser(data);
+        setIsLoggedIn(true);
         return;
       }
 
@@ -113,15 +115,15 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Logout from Google
     await googleLogout();
 
-    // Remove userJWT, user and isLoggedIn
+    // Remove userJWT, user
     await AsyncStorage.removeItem('userJWT');
-    setIsLoggedIn(false);
     setUserJWT(undefined);
+    setIsLoggedIn(false);
     setUser(undefined);
   };
 
   // Create value object for context
-  const value = useMemo(() => ({ isLoggedIn, login, logout, user, userJWT }), [isLoggedIn, user, userJWT]);
+  const value = useMemo(() => ({ login, logout, isLoggedIn, user, userJWT }), [user, isLoggedIn, userJWT]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
