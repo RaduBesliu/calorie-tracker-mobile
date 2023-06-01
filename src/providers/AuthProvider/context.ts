@@ -7,6 +7,7 @@ export interface AuthContextType {
   isLoggedIn: boolean;
   user: User | undefined;
   userJWT: string | undefined;
+  isLoading: boolean;
 }
 
 // Context is used to pass data down the component tree without having to pass props down manually at every level.
@@ -16,4 +17,5 @@ export const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
   user: undefined,
   userJWT: undefined,
+  isLoading: true,
 });

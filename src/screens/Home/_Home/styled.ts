@@ -24,6 +24,7 @@ export const Components = {
     justify-content: center;
     align-items: center;
     border-radius: 8px;
+    margin-bottom: 24px;
   `,
 
   ButtonLabel: styled.Text`

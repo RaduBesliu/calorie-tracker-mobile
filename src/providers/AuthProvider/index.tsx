@@ -13,11 +13,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | undefined>();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [userJWT, setUserJWT] = useState<string | undefined>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Check if user is logged in on app start
   useEffect(() => {
     console.log('[AUTH] Checking if user is logged in');
     AsyncStorage.getItem('userJWT').then((userJWT) => {
+      setIsLoading(false);
       // If userJWT is found, set userJWT, user and isLoggedIn
       if (userJWT) {
         setUserJWT(userJWT);
@@ -59,9 +61,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     console.log('----------------');
     console.log('[AUTH] Logged in with JWT', userJWT);
     console.log('[AUTH] Logged in', isLoggedIn);
+    console.log('[AUTH] Is loading', isLoading);
     console.log('[AUTH] User', user);
     console.log('----------------');
-  }, [userJWT, user, isLoggedIn]);
+  }, [userJWT, user, isLoggedIn, isLoading]);
 
   // Login function
   const login = async () => {
@@ -123,7 +126,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   // Create value object for context
-  const value = useMemo(() => ({ login, logout, isLoggedIn, user, userJWT }), [user, isLoggedIn, userJWT]);
+  const value = useMemo(
+    () => ({ login, logout, isLoggedIn, user, userJWT, isLoading }),
+    [login, logout, user, isLoggedIn, userJWT, isLoading],
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
