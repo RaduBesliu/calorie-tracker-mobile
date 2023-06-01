@@ -25,27 +25,21 @@ const CreateProduct = () => {
   }, [name, calories, fat, carbs, protein]);
 
   const addProduct = () => {
-    console.log({
-      body: {
-        name,
-        calories: Number(calories),
-        fat: Number(fat),
-        carbs: Number(carbs),
-        protein: Number(protein),
-      },
-    });
+    const item = {
+      name: name.toLowerCase(),
+      calories: parseInt(calories),
+      fat: parseInt(fat),
+      carbs: parseInt(carbs),
+      protein: parseInt(protein),
+    };
+    console.log(item);
     apiFetch({
       path: `/product`,
       method: 'POST',
-      body: {
-        name: 'test',
-        calories: 10,
-        fat: 20,
-        carbs: 30,
-        protein: 40,
-      },
+      body: item,
     }).then((res) => {
-      console.log(res);
+      console.log(res?.detail);
+      navigation.goBack();
     });
   };
 

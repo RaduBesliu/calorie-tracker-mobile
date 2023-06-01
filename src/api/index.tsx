@@ -23,7 +23,8 @@ export const apiFetch = async ({
   }
 
   const defaultHeaders = {
-    Accept: 'application/json',
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
   };
 
   const authHeaders = {
