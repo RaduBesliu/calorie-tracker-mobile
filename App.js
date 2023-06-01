@@ -16,14 +16,16 @@ import CreateDiary from './src/screens/Diaries/CreateDiary';
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
-  const { user } = useContext(AuthContext);
-  const [isLoading, setIsLoading] = useState(true);
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+const App = () => {
+  const { isLoggedIn, isLoading } = useContext(AuthContext);
+
+  useEffect(() => {
+    console.log('IS LOGGED IN', isLoggedIn);
+  }, [isLoggedIn]);
 
   return (
-    <Providers>
-      {!isLoading ? (
+    <>
+      {isLoading ? (
         <SplashScreen />
       ) : (
         <NavigationContainer>
@@ -33,15 +35,26 @@ export default function App() {
                 backgroundColor: COLORS.green,
               },
             }}>
-            <Stack.Screen name='Diaries' component={Diaries} />
-            <Stack.Screen name='Meals' component={Meals} />
-            <Stack.Screen name='Create Diary' component={CreateDiary} />
-            <Stack.Screen name='Create Meal' component={CreateMeal} />
-            <Stack.Screen name='Products' component={Products} />
-            <Stack.Screen name='Create Product' component={CreateProduct} />
+            {isLoggedIn ? (
+              <Stack.Group>
+                <Stack.Screen name='Home' component={Home} />
+                <Stack.Screen name='Diaries' component={Diaries} />
+                <Stack.Screen name='Meals' component={Meals} />
+                <Stack.Screen name='Create Diary' component={CreateDiary} />
+                <Stack.Screen name='Create Meal' component={CreateMeal} />
+                <Stack.Screen name='Products' component={Products} />
+                <Stack.Screen name='Create Product' component={CreateProduct} />
+              </Stack.Group>
+            ) : (
+              <Stack.Group>
+                <Stack.Screen name='Login' component={Login} />
+              </Stack.Group>
+            )}
           </Stack.Navigator>
         </NavigationContainer>
       )}
-    </Providers>
+    </>
   );
-}
+};
+
+export default App;

@@ -1,12 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Components } from './styled';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { COLORS } from '../../../utils/styled/constants';
 import { AuthContext } from '../../../providers/AuthProvider/context';
+import { useNavigation } from '@react-navigation/native';
 
 const Home = () => {
-  const { user, logout } = useContext(AuthContext);
+  const navigation = useNavigation();
+
+  const { user, logout, isLoggedIn } = useContext(AuthContext);
 
   return (
     <>
