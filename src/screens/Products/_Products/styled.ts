@@ -17,15 +17,25 @@ export const Components = {
   ItemCell: styled.View`
     width: 90%;
     background-color: ${COLORS.brown};
-    margin-top: 24px;
+    margin-vertical: 24px;
     border-radius: 8px;
     padding: 16px;
-    margin-left: 16px;
+    margin-left: 20px;
   `,
 
-  ItemCellText: styled.Text`
+  ItemCellDetails: styled.View``,
+
+  ItemCellFieldTitle: styled.Text`
     color: ${COLORS.black};
-    font-size: 18px;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: capitalize;
+  `,
+
+  ItemCellFieldDescription: styled.Text`
+    color: ${COLORS.black};
+    font-size: 20px;
+    margin-bottom: 8px;
   `,
 
   ButtonsWrapper: styled.View`
@@ -33,16 +43,16 @@ export const Components = {
     width: 100%;
     height: 48px;
     flex-direction: row;
-    justify-content: center;
-    background-color: red;
+    justify-content: space-around;
   `,
 
   Button: styled.TouchableOpacity<{ color: string }>`
-    width: 50%;
+    width: 40%;
     background-color: ${(props) => props.color};
     align-items: center;
     justify-content: center;
     padding-vertical: 8px;
+    border-radius: 8px;
   `,
 
   ButtonLabel: styled.Text`

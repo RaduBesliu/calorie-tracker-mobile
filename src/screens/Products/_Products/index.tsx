@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Components } from './styled';
 import _ from 'lodash';
 import { Product } from '../../../api/types/product';
@@ -10,14 +10,12 @@ import { COLORS } from '../../../utils/styled/constants';
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const searchTermRef = useRef('');
 
-  useEffect(() => {
-    console.log('products', products);
-  }, [products]);
-
-  const onDebouncedSearch = async (text: string) => {
+  const onDebouncedSearch = async () => {
+    console.log(searchTerm);
     apiFetch({
-      path: `/product/search/${text.toLowerCase()}`,
+      path: `/product/search/${searchTermRef.current.toLowerCase()}`,
     }).then((data) => {
       setProducts(data?.products);
     });
@@ -27,7 +25,8 @@ const Products = () => {
 
   const onSearch = async (text: string) => {
     setSearchTerm(text);
-    searchHandler(text);
+    searchTermRef.current = text;
+    await searchHandler();
   };
 
   const _onUpvote = async (item: Product) => {
@@ -39,7 +38,7 @@ const Products = () => {
       },
     });
 
-    await onDebouncedSearch(searchTerm);
+    await onDebouncedSearch();
   };
 
   const _onDownvote = async (item: Product) => {
@@ -51,18 +50,25 @@ const Products = () => {
       },
     });
 
-    await onDebouncedSearch(searchTerm);
+    await onDebouncedSearch();
   };
 
   const _renderItem = useCallback(({ item }: { item: Product }) => {
     return (
       <Components.ItemCell>
         {Object.keys(item).map((key) => {
+          if (key === 'id') {
+            return null;
+          }
+
           return (
-            <Components.ItemCellText key={key}>
-              {/*@ts-ignore*/}
-              {key}: {item?.[key]}
-            </Components.ItemCellText>
+            <Components.ItemCellDetails>
+              <Components.ItemCellFieldTitle key={item.id + key}>{key}</Components.ItemCellFieldTitle>
+              <Components.ItemCellFieldDescription key={item.id + key + 'value'}>
+                {/*@ts-ignore*/}
+                {item[key]}
+              </Components.ItemCellFieldDescription>
+            </Components.ItemCellDetails>
           );
         })}
         <Components.ButtonsWrapper>
@@ -79,7 +85,7 @@ const Products = () => {
 
   return (
     <Components.Container>
-      <InputComponent label={'Item'} placeholder={'Search...'} value={searchTerm} setValue={onSearch} />
+      <InputComponent label={'Search for products'} placeholder={'Search...'} value={searchTerm} setValue={onSearch} />
       <FlatList data={products} renderItem={_renderItem} />
     </Components.Container>
   );
