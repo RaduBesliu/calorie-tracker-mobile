@@ -9,6 +9,7 @@ import SplashScreen from './src/screens/Login/SplashScreen';
 import Home from './src/screens/Home/_Home';
 import Products from './src/screens/Products/_Products';
 import CreateProduct from './src/screens/Products/CreateProduct';
+import Meals from './src/screens/Meals/_Meals';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ export default function App() {
                 backgroundColor: COLORS.green,
               },
             }}>
+            <Stack.Screen name='Meals' component={Meals} />
             <Stack.Screen name='Products' component={Products} />
             <Stack.Screen name='Create Product' component={CreateProduct} />
           </Stack.Navigator>
