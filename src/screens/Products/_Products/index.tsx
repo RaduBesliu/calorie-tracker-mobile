@@ -9,10 +9,11 @@ import { COLORS } from '../../../utils/styled/constants';
 import { useNavigation } from '@react-navigation/native';
 
 const Products = () => {
+  const navigation = useNavigation();
+
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const searchTermRef = useRef('');
-  const navigation = useNavigation();
 
   const navigateToCreateProduct = () => {
     // @ts-ignore
@@ -110,7 +111,7 @@ const Products = () => {
         </Components.Button>
       </Components.ButtonsWrapper>
       <InputComponent label={'Search for products'} placeholder={'Search...'} value={searchTerm} setValue={onSearch} />
-      <FlatList data={products} renderItem={_renderItem} />
+      <FlatList data={products} renderItem={_renderItem} keyExtractor={(item) => item.id} />
     </Components.Container>
   );
 };
