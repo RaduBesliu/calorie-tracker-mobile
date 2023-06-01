@@ -131,7 +131,35 @@ const CreateDiary = () => {
     setDiaryProductsBody(diaryProductsBody.filter((diaryProduct) => diaryProduct.product_id !== product.id));
   };
 
-  const _onAddMealToDiary = async (meal: Meal) => {};
+  const _onAddMealToDiary = async (meal: Meal) => {
+    meal.products.forEach((product) => {
+      if (diaryProducts.find((diaryProduct) => diaryProduct.id === product.id) === undefined) {
+        const diaryProductBody: DiaryProductBody = {
+          product_id: product.id,
+          quantity_grams: product.quantity_grams,
+        };
+
+        setDiaryProducts([...diaryProducts, product]);
+        setDiaryProductsBody([...diaryProductsBody, diaryProductBody]);
+      } else {
+        setDiaryProductsBody((prev) => {
+          return prev.map((diaryProduct) => {
+            if (diaryProduct.product_id === product.id) {
+              return {
+                ...diaryProduct,
+                quantity_grams: diaryProduct.quantity_grams + product.quantity_grams,
+              };
+            }
+
+            return diaryProduct;
+          });
+        });
+      }
+    });
+
+    setSearchMealsTerm('');
+    setFilteredMeals([] as Meal[]);
+  };
 
   const _renderAllProductsItem = useCallback(
     ({ item }: { item: Product }) => {
