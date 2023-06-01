@@ -15,6 +15,8 @@ const CreateMeal = () => {
 
   const [mealProducts, setMealProducts] = useState<Product[]>([]);
   const [mealProductsBody, setMealProductsBody] = useState<MealProductBody[]>([]);
+
+  const [name, setName] = useState('');
   const [quantityGrams, setQuantityGrams] = useState('');
 
   const [products, setProducts] = useState<Product[]>([]);
@@ -31,14 +33,14 @@ const CreateMeal = () => {
 
   const _onAddMeal = async () => {
     console.log({
-      name: 'test',
+      name: name || 'New Meal',
       products: mealProductsBody,
     });
     apiFetch({
       path: `/meal`,
       method: 'POST',
       body: {
-        name: 'test',
+        name: name || 'New Meal',
         products: mealProductsBody,
       },
     }).then((res) => {
@@ -149,6 +151,7 @@ const CreateMeal = () => {
 
   return (
     <Components.Container>
+      <InputComponent label={'Name'} placeholder={'Name...'} value={name} setValue={setName} />
       <InputComponent
         label={'Quantity in grams'}
         placeholder={'Quantity in grams...'}

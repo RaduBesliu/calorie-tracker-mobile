@@ -15,12 +15,12 @@ export const Components = {
   `,
 
   ItemCell: styled.View`
-    width: 90%;
+    width: 85%;
     background-color: ${COLORS.brown};
     margin-vertical: 24px;
     border-radius: 8px;
     padding: 16px;
-    margin-left: 20px;
+    margin-left: 10px;
   `,
 
   ItemCellDetails: styled.View``,
