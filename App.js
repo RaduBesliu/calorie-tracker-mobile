@@ -10,6 +10,7 @@ import Home from './src/screens/Home/_Home';
 import Products from './src/screens/Products/_Products';
 import CreateProduct from './src/screens/Products/CreateProduct';
 import Meals from './src/screens/Meals/_Meals';
+import CreateMeal from './src/screens/Meals/CreateMeal';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,7 @@ export default function App() {
               },
             }}>
             <Stack.Screen name='Meals' component={Meals} />
+            <Stack.Screen name='Create Meal' component={CreateMeal} />
             <Stack.Screen name='Products' component={Products} />
             <Stack.Screen name='Create Product' component={CreateProduct} />
           </Stack.Navigator>

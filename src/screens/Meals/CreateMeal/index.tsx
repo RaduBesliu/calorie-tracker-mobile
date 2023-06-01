@@ -1,0 +1,174 @@
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+
+import { Components } from './styled';
+import { useNavigation } from '@react-navigation/native';
+import { Product } from '../../../api/types/product';
+import { MealProductBody } from '../../../api/types/meal';
+import { COLORS } from '../../../utils/styled/constants';
+import { apiFetch } from '../../../api';
+import _ from 'lodash';
+import InputComponent from '../../../components/InputComponent';
+import { FlatList } from 'react-native';
+
+const CreateMeal = () => {
+  const navigation = useNavigation();
+
+  const [mealProducts, setMealProducts] = useState<Product[]>([]);
+  const [mealProductsBody, setMealProductsBody] = useState<MealProductBody[]>([]);
+  const [quantityGrams, setQuantityGrams] = useState('');
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const searchTermRef = useRef('');
+
+  useEffect(() => {
+    console.log('mealProducts', mealProducts);
+  }, [mealProducts]);
+
+  useEffect(() => {
+    console.log('mealProductsBody', mealProductsBody);
+  }, [mealProductsBody]);
+
+  const _onAddMeal = async () => {
+    console.log({
+      name: 'test',
+      products: mealProductsBody,
+    });
+    apiFetch({
+      path: `/meal`,
+      method: 'POST',
+      body: {
+        name: 'test',
+        products: mealProductsBody,
+      },
+    }).then((res) => {
+      console.log(res);
+      navigation.goBack();
+    });
+  };
+
+  const onDebouncedSearch = async () => {
+    console.log(searchTerm);
+    apiFetch({
+      path: `/product/search/${searchTermRef.current.toLowerCase()}`,
+    }).then((data) => {
+      setProducts(data?.products);
+    });
+  };
+
+  const searchHandler = useCallback(_.debounce(onDebouncedSearch, 1000), []);
+
+  const onSearch = async (text: string) => {
+    setSearchTerm(text);
+    searchTermRef.current = text;
+    await searchHandler();
+  };
+
+  const _onAddProduct = async (product: Product) => {
+    const mealProductBody: MealProductBody = {
+      product_id: product.id,
+      quantity_grams: parseInt(quantityGrams) || 100,
+    };
+
+    setMealProducts([...mealProducts, product]);
+    setMealProductsBody([...mealProductsBody, mealProductBody]);
+    setSearchTerm('');
+    setProducts([] as Product[]);
+  };
+
+  const _onRemoveProduct = async (product: Product) => {
+    setMealProducts(mealProducts.filter((mealProduct) => mealProduct.id !== product.id));
+    setMealProductsBody(mealProductsBody.filter((mealProduct) => mealProduct.product_id !== product.id));
+  };
+
+  const _renderAllProductsItem = useCallback(
+    ({ item }: { item: Product }) => {
+      return (
+        <Components.ItemCell>
+          {Object.keys(item).map((key) => {
+            if (key === 'id') {
+              return null;
+            }
+
+            return (
+              <Components.ItemCellDetails>
+                <Components.ItemCellFieldTitle key={item.id + key}>{key}</Components.ItemCellFieldTitle>
+                <Components.ItemCellFieldDescription key={item.id + key + 'value'}>
+                  {/*@ts-ignore*/}
+                  {item[key]}
+                </Components.ItemCellFieldDescription>
+              </Components.ItemCellDetails>
+            );
+          })}
+          <Components.ButtonsWrapper>
+            {mealProducts.find((mealProduct) => mealProduct.id === item.id) === undefined ? (
+              <Components.Button color={COLORS.green} onPress={() => _onAddProduct(item)}>
+                <Components.ButtonLabel>Add</Components.ButtonLabel>
+              </Components.Button>
+            ) : (
+              <Components.Button color={COLORS.red} onPress={() => _onRemoveProduct(item)}>
+                <Components.ButtonLabel>Remove</Components.ButtonLabel>
+              </Components.Button>
+            )}
+          </Components.ButtonsWrapper>
+        </Components.ItemCell>
+      );
+    },
+    [mealProducts, mealProductsBody, quantityGrams],
+  );
+
+  const _renderMealProductsItem = useCallback(
+    ({ item }: { item: Product }) => {
+      return (
+        <Components.ItemCell>
+          {Object.keys(item).map((key) => {
+            if (key === 'id') {
+              return null;
+            }
+
+            return (
+              <Components.ItemCellDetails>
+                <Components.ItemCellFieldTitle key={item.id + key}>{key}</Components.ItemCellFieldTitle>
+                <Components.ItemCellFieldDescription key={item.id + key + 'value'}>
+                  {/*@ts-ignore*/}
+                  {item[key]}
+                </Components.ItemCellFieldDescription>
+              </Components.ItemCellDetails>
+            );
+          })}
+          <Components.ButtonsWrapper>
+            <Components.Button color={COLORS.red} onPress={() => _onRemoveProduct(item)}>
+              <Components.ButtonLabel>Remove</Components.ButtonLabel>
+            </Components.Button>
+          </Components.ButtonsWrapper>
+        </Components.ItemCell>
+      );
+    },
+    [mealProductsBody, mealProducts],
+  );
+
+  return (
+    <Components.Container>
+      <InputComponent
+        label={'Quantity in grams'}
+        placeholder={'Quantity in grams...'}
+        value={quantityGrams}
+        setValue={setQuantityGrams}
+      />
+      <InputComponent label={'Search for products'} placeholder={'Search...'} value={searchTerm} setValue={onSearch} />
+      <FlatList data={products} renderItem={_renderAllProductsItem} keyExtractor={(item) => item.id} />
+      {products.length === 0 && mealProducts.length !== 0 && (
+        <>
+          <Components.ButtonsWrapper>
+            <Components.Button color={COLORS.green} onPress={_onAddMeal}>
+              <Components.ButtonLabel>Add meal</Components.ButtonLabel>
+            </Components.Button>
+          </Components.ButtonsWrapper>
+          <FlatList data={mealProducts} renderItem={_renderMealProductsItem} keyExtractor={(item) => item.id} />
+        </>
+      )}
+    </Components.Container>
+  );
+};
+
+export default CreateMeal;

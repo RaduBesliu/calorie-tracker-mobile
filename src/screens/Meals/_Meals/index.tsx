@@ -17,11 +17,18 @@ const Meals = () => {
       path: '/meals',
     }).then((data) => {
       console.log(data);
-      setMeals(data?.meals);
+      setMeals(data);
     });
   }, []);
 
-  const navigateToCreateMeal = () => {};
+  useEffect(() => {
+    console.log('meals', meals);
+  }, [meals]);
+
+  const navigateToCreateMeal = () => {
+    // @ts-ignore
+    navigation.navigate('Create Meal');
+  };
 
   const _renderItem = useCallback(({ item }: { item: Meal }) => {
     return (
@@ -36,7 +43,7 @@ const Meals = () => {
               <Components.ItemCellFieldTitle key={item.id + key}>{key}</Components.ItemCellFieldTitle>
               <Components.ItemCellFieldDescription key={item.id + key + 'value'}>
                 {/*@ts-ignore*/}
-                {item[key]}
+                {key !== 'products' ? item[key] : item[key].map((product: Product) => product.name).join(', ')}
               </Components.ItemCellFieldDescription>
             </Components.ItemCellDetails>
           );

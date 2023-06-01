@@ -1,5 +1,10 @@
 import { Product } from './product';
 
+export interface MealProductBody {
+  product_id: string;
+  quantity_grams: number;
+}
+
 export interface MealProduct extends Product {
   quantity_grams: number;
 }
