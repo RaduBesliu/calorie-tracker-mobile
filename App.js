@@ -11,6 +11,8 @@ import Products from './src/screens/Products/_Products';
 import CreateProduct from './src/screens/Products/CreateProduct';
 import Meals from './src/screens/Meals/_Meals';
 import CreateMeal from './src/screens/Meals/CreateMeal';
+import Diaries from './src/screens/Diaries/_Diaries';
+import CreateDiary from './src/screens/Diaries/CreateDiary';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,7 +33,9 @@ export default function App() {
                 backgroundColor: COLORS.green,
               },
             }}>
+            <Stack.Screen name='Diaries' component={Diaries} />
             <Stack.Screen name='Meals' component={Meals} />
+            <Stack.Screen name='Create Diary' component={CreateDiary} />
             <Stack.Screen name='Create Meal' component={CreateMeal} />
             <Stack.Screen name='Products' component={Products} />
             <Stack.Screen name='Create Product' component={CreateProduct} />
