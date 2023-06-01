@@ -1,15 +1,17 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BACKEND_URL } from '../env';
+import { ADMIN_JWT, BACKEND_URL } from '../env';
 
 // Custom API fetch function
 export const apiFetch = async ({
   method = 'GET',
   path,
   body,
+  isAdmin = false,
 }: {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
   path: string;
   body?: unknown;
+  isAdmin?: boolean;
 }) => {
   // Check if there is a JWT in storage
   const userJWT = await AsyncStorage.getItem('userJWT');
@@ -25,7 +27,7 @@ export const apiFetch = async ({
   };
 
   const authHeaders = {
-    Authorization: `Bearer ${userJWT}`,
+    Authorization: `Bearer ${isAdmin ? ADMIN_JWT : userJWT}`,
   };
 
   // If the method is GET and there is a body, return

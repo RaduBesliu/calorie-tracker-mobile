@@ -2,15 +2,22 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Components } from './styled';
 import _ from 'lodash';
 import { Product } from '../../../api/types/product';
-import { FlatList, TextInput } from 'react-native';
+import { Button, FlatList, TextInput } from 'react-native';
 import { apiFetch } from '../../../api';
 import InputComponent from '../../../components/InputComponent';
 import { COLORS } from '../../../utils/styled/constants';
+import { useNavigation } from '@react-navigation/native';
 
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const searchTermRef = useRef('');
+  const navigation = useNavigation();
+
+  const navigateToCreateProduct = () => {
+    // @ts-ignore
+    navigation.navigate('Create Product');
+  };
 
   const onDebouncedSearch = async () => {
     console.log(searchTerm);
@@ -29,6 +36,16 @@ const Products = () => {
     await searchHandler();
   };
 
+  const checkVotes = async (item: Product) => {
+    if (item.downvotes - item.upvotes >= 9) {
+      await apiFetch({
+        path: `/product/${item.id}`,
+        method: 'DELETE',
+        isAdmin: true,
+      });
+    }
+  };
+
   const _onUpvote = async (item: Product) => {
     await apiFetch({
       path: `/product/${item.id}`,
@@ -38,6 +55,7 @@ const Products = () => {
       },
     });
 
+    await checkVotes(item);
     await onDebouncedSearch();
   };
 
@@ -50,6 +68,7 @@ const Products = () => {
       },
     });
 
+    await checkVotes(item);
     await onDebouncedSearch();
   };
 
@@ -85,6 +104,11 @@ const Products = () => {
 
   return (
     <Components.Container>
+      <Components.ButtonsWrapper>
+        <Components.Button color={COLORS.green} onPress={() => navigateToCreateProduct()}>
+          <Components.ButtonLabel>Create product</Components.ButtonLabel>
+        </Components.Button>
+      </Components.ButtonsWrapper>
       <InputComponent label={'Search for products'} placeholder={'Search...'} value={searchTerm} setValue={onSearch} />
       <FlatList data={products} renderItem={_renderItem} />
     </Components.Container>

@@ -8,6 +8,7 @@ import { AuthContext } from './src/providers/AuthProvider/context';
 import SplashScreen from './src/screens/Login/SplashScreen';
 import Home from './src/screens/Home/_Home';
 import Products from './src/screens/Products/_Products';
+import CreateProduct from './src/screens/Products/CreateProduct';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ export default function App() {
               },
             }}>
             <Stack.Screen name='Products' component={Products} />
+            <Stack.Screen name='Create Product' component={CreateProduct} />
           </Stack.Navigator>
         </NavigationContainer>
       )}
