@@ -10,7 +10,7 @@ const InputComponent = ({
 }: {
   label: string;
   placeholder: string;
-  value: string;
+  value?: string;
   setValue: (text: string) => void;
 }) => {
   return (
