@@ -44,8 +44,8 @@ const Home = () => {
           : `You have not reached your target calories of ${user?.target_calories} yet`}
       </Components.TargetCaloriesText>
       <Components.PieChartWrapper>
-        <Components.CaloriesText offset={'44%'}>Calories</Components.CaloriesText>
-        <Components.CaloriesText offset={'49%'}>{currentDiary?.total_calories ?? 0}</Components.CaloriesText>
+        <Components.CaloriesText offset={'45%'}>Calories</Components.CaloriesText>
+        <Components.CaloriesText offset={'50%'}>{currentDiary?.total_calories ?? 0}</Components.CaloriesText>
         <PieChart
           widthAndHeight={SCREEN_WIDTH / 2}
           series={[currentDiary?.total_carbs ?? 0, currentDiary?.total_protein ?? 0, currentDiary?.total_fat ?? 1]}

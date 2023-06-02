@@ -151,7 +151,9 @@ const CreateMeal = () => {
 
   return (
     <Components.Container>
-      <InputComponent label={'Name'} placeholder={'Name...'} value={name} setValue={setName} />
+      {searchTerm.trim() === '' && (
+        <InputComponent label={'Name'} placeholder={'Name...'} value={name} setValue={setName} />
+      )}
       <InputComponent
         label={'Quantity in grams'}
         placeholder={'Quantity in grams...'}

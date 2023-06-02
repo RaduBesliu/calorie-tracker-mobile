@@ -90,6 +90,12 @@ const CreateDiary = () => {
       return;
     }
 
+    console.log(
+      meals.filter((meal) => {
+        return meal.name.toLowerCase().includes(searchMealsTermRef.current.trim().toLowerCase());
+      }),
+    );
+
     setFilteredMeals(
       meals.filter((meal) => {
         return meal.name.toLowerCase().includes(searchMealsTermRef.current.trim().toLowerCase());
@@ -131,6 +137,8 @@ const CreateDiary = () => {
   };
 
   const _onAddMealToDiary = async (meal: Meal) => {
+    let _diaryProducts: Product[] = [];
+    let _diaryProductsBody: DiaryProductBody[] = [];
     meal.products.forEach((product) => {
       if (diaryProducts.find((diaryProduct) => diaryProduct.id === product.id) === undefined) {
         const diaryProductBody: DiaryProductBody = {
@@ -138,24 +146,26 @@ const CreateDiary = () => {
           quantity_grams: product.quantity_grams,
         };
 
-        setDiaryProducts([...diaryProducts, product]);
-        setDiaryProductsBody([...diaryProductsBody, diaryProductBody]);
-      } else {
-        setDiaryProductsBody((prev) => {
-          return prev.map((diaryProduct) => {
-            if (diaryProduct.product_id === product.id) {
-              return {
-                ...diaryProduct,
-                quantity_grams: diaryProduct.quantity_grams + product.quantity_grams,
-              };
-            }
+        console.log('diaryProductBody', diaryProductBody);
 
-            return diaryProduct;
-          });
+        _diaryProducts.push(product);
+        _diaryProductsBody.push(diaryProductBody);
+      } else {
+        _diaryProductsBody = _diaryProductsBody.map((diaryProduct) => {
+          if (diaryProduct.product_id === product.id) {
+            return {
+              ...diaryProduct,
+              quantity_grams: diaryProduct.quantity_grams + product.quantity_grams,
+            };
+          }
+
+          return diaryProduct;
         });
       }
     });
 
+    setDiaryProducts([...diaryProducts, ..._diaryProducts]);
+    setDiaryProductsBody([...diaryProductsBody, ..._diaryProductsBody]);
     setSearchMealsTerm('');
     setFilteredMeals([] as Meal[]);
   };
@@ -258,7 +268,7 @@ const CreateDiary = () => {
 
   return (
     <Components.Container>
-      {filteredMeals?.length === 0 && (
+      {(filteredMeals?.length === 0 || searchMealsTerm.trim() !== '') && (
         <InputComponent
           label={'Quantity in grams'}
           placeholder={'Quantity in grams...'}
