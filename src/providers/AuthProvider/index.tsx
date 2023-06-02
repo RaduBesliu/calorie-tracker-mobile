@@ -127,8 +127,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Create value object for context
   const value = useMemo(
-    () => ({ login, logout, isLoggedIn, user, userJWT, isLoading }),
-    [login, logout, user, isLoggedIn, userJWT, isLoading],
+    () => ({ login, logout, isLoggedIn, user, setUser, userJWT, isLoading }),
+    [login, logout, user, setUser, isLoggedIn, userJWT, isLoading],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

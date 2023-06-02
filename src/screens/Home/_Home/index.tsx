@@ -25,6 +25,10 @@ const Home = () => {
       <Components.Button onPress={() => navigation.navigate('Products')}>
         <Components.ButtonLabel>{'Products'}</Components.ButtonLabel>
       </Components.Button>
+      {/*@ts-ignore*/}
+      <Components.Button onPress={() => navigation.navigate('Account')}>
+        <Components.ButtonLabel>{'Account'}</Components.ButtonLabel>
+      </Components.Button>
       <Components.Button onPress={logout}>
         <FontAwesomeIcon icon={faGoogle} color={COLORS.black} />
         <Components.ButtonLabel>{'Logout'}</Components.ButtonLabel>

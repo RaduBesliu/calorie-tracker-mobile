@@ -12,6 +12,7 @@ import Meals from './src/screens/Meals/_Meals';
 import CreateMeal from './src/screens/Meals/CreateMeal';
 import Diaries from './src/screens/Diaries/_Diaries';
 import CreateDiary from './src/screens/Diaries/CreateDiary';
+import Account from './src/screens/Account/_Account';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,7 @@ const App = () => {
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
+              headerTintColor: COLORS.black,
               headerStyle: {
                 backgroundColor: COLORS.green,
               },
@@ -37,6 +39,7 @@ const App = () => {
             {isLoggedIn ? (
               <Stack.Group>
                 <Stack.Screen name='Home' component={Home} />
+                <Stack.Screen name='Account' component={Account} />
                 <Stack.Screen name='Diaries' component={Diaries} />
                 <Stack.Screen name='Meals' component={Meals} />
                 <Stack.Screen name='Create Diary' component={CreateDiary} />

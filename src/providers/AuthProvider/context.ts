@@ -6,6 +6,7 @@ export interface AuthContextType {
   logout: () => Promise<void>;
   isLoggedIn: boolean;
   user: User | undefined;
+  setUser: (user: User | undefined) => void;
   userJWT: string | undefined;
   isLoading: boolean;
 }
@@ -16,6 +17,7 @@ export const AuthContext = createContext<AuthContextType>({
   logout: async () => {},
   isLoggedIn: false,
   user: undefined,
+  setUser: (user: User | undefined) => {},
   userJWT: undefined,
   isLoading: true,
 });
