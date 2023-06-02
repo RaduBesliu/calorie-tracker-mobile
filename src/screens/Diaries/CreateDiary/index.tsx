@@ -18,7 +18,6 @@ const CreateDiary = () => {
   const [diaryProducts, setDiaryProducts] = useState<Product[]>([]);
   const [diaryProductsBody, setDiaryProductsBody] = useState<DiaryProductBody[]>([]);
 
-  const [name, setName] = useState('');
   const [quantityGrams, setQuantityGrams] = useState('');
 
   const [products, setProducts] = useState<Product[]>([]);
@@ -259,9 +258,6 @@ const CreateDiary = () => {
 
   return (
     <Components.Container>
-      {searchMealsTerm.trim() === '' && searchProductsTerm.trim() === '' && (
-        <InputComponent label={'Name'} placeholder={'Name...'} value={name} setValue={setName} />
-      )}
       {filteredMeals?.length === 0 && (
         <InputComponent
           label={'Quantity in grams'}
