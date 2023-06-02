@@ -6,11 +6,14 @@ import { UserHeightMetric, UserWeightMetric } from '../../../api/types/user';
 import { AuthContext } from '../../../providers/AuthProvider/context';
 import { apiFetch } from '../../../api';
 import { useNavigation } from '@react-navigation/native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { COLORS } from '../../../utils/styled/constants';
 
 const Account = () => {
   const navigation = useNavigation();
 
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, logout } = useContext(AuthContext);
 
   const [name, setName] = useState<string | undefined>();
   const [preferredHeightMetric, setPreferredHeightMetric] = useState<string | undefined>();
@@ -93,6 +96,10 @@ const Account = () => {
       />
       <Components.Button onPress={_onSave}>
         <Components.ButtonLabel>Save</Components.ButtonLabel>
+      </Components.Button>
+      <Components.Button onPress={logout}>
+        <FontAwesomeIcon icon={faGoogle} color={COLORS.black} />
+        <Components.ButtonLabel>{'Logout'}</Components.ButtonLabel>
       </Components.Button>
     </Components.Container>
   );
