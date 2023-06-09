@@ -60,4 +60,11 @@ export const Components = {
     font-size: 20px;
     font-weight: bold;
   `,
+
+  CreateDiaryText: styled.Text`
+    font-size: 24px;
+    color: ${COLORS.gold};
+    text-align: center;
+    margin-top: 16px;
+  `,
 };
