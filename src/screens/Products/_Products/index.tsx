@@ -7,6 +7,8 @@ import { apiFetch } from '../../../api';
 import InputComponent from '../../../components/InputComponent';
 import { COLORS } from '../../../utils/styled/constants';
 import { useNavigation } from '@react-navigation/native';
+import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const Products = () => {
   const navigation = useNavigation();
@@ -76,28 +78,25 @@ const Products = () => {
   const _renderItem = useCallback(({ item }: { item: Product }) => {
     return (
       <Components.ItemCell>
-        {Object.keys(item).map((key) => {
-          if (key === 'id') {
-            return null;
-          }
-
-          return (
-            <Components.ItemCellDetails>
-              <Components.ItemCellFieldTitle key={item.id + key}>{key}</Components.ItemCellFieldTitle>
-              <Components.ItemCellFieldDescription key={item.id + key + 'value'}>
-                {/*@ts-ignore*/}
-                {item[key]}
-              </Components.ItemCellFieldDescription>
-            </Components.ItemCellDetails>
-          );
-        })}
+        <Components.Label>{item.name}</Components.Label>
+        <Components.ItemCellFieldDescription
+          color={COLORS.orange}>{`Carbs: ${item.carbs}g`}</Components.ItemCellFieldDescription>
+        <Components.ItemCellFieldDescription
+          color={COLORS.lightGreen}>{`Protein: ${item.protein}g`}</Components.ItemCellFieldDescription>
+        <Components.ItemCellFieldDescription
+          color={COLORS.blue}>{`Fat: ${item.fat}g`}</Components.ItemCellFieldDescription>
         <Components.ButtonsWrapper>
-          <Components.Button color={COLORS.green} onPress={() => _onUpvote(item)}>
-            <Components.ButtonLabel>Upvote</Components.ButtonLabel>
-          </Components.Button>
-          <Components.Button color={COLORS.red} onPress={() => _onDownvote(item)}>
-            <Components.ButtonLabel>Downvote</Components.ButtonLabel>
-          </Components.Button>
+          <Components.ItemCellFieldDescription color={item.upvotes - item.downvotes >= 0 ? COLORS.green : COLORS.red}>
+            {item.upvotes - item.downvotes}
+          </Components.ItemCellFieldDescription>
+          <Components.ItemCellDetails>
+            <Components.Button onPress={() => _onUpvote(item)}>
+              <FontAwesomeIcon icon={faThumbsUp} size={20} color={COLORS.white} />
+            </Components.Button>
+            <Components.Button onPress={() => _onDownvote(item)}>
+              <FontAwesomeIcon icon={faThumbsDown} size={20} color={COLORS.white} />
+            </Components.Button>
+          </Components.ItemCellDetails>
         </Components.ButtonsWrapper>
       </Components.ItemCell>
     );
@@ -105,11 +104,14 @@ const Products = () => {
 
   return (
     <Components.Container>
-      <Components.ButtonsWrapper>
-        <Components.Button color={COLORS.green} onPress={() => navigateToCreateProduct()}>
-          <Components.ButtonLabel>Create product</Components.ButtonLabel>
-        </Components.Button>
-      </Components.ButtonsWrapper>
+      {products === undefined ||
+        (products.length === 0 && (
+          <Components.ButtonsWrapper>
+            <Components.CreateButton onPress={() => navigateToCreateProduct()}>
+              <Components.ButtonLabel>Create product</Components.ButtonLabel>
+            </Components.CreateButton>
+          </Components.ButtonsWrapper>
+        ))}
       <InputComponent label={'Search for products'} placeholder={'Search...'} value={searchTerm} setValue={onSearch} />
       <FlatList data={products} renderItem={_renderItem} keyExtractor={(item) => item.id} />
     </Components.Container>
