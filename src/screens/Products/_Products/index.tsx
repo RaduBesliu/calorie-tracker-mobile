@@ -27,7 +27,7 @@ const Products = () => {
     apiFetch({
       path: `/product/search/${searchTermRef.current.toLowerCase()}`,
     }).then((data) => {
-      setProducts(data?.products);
+      setProducts(data?.products ?? ([] as Product[]));
     });
   };
 
@@ -104,14 +104,13 @@ const Products = () => {
 
   return (
     <Components.Container>
-      {products === undefined ||
-        (products.length === 0 && (
-          <Components.ButtonsWrapper>
-            <Components.CreateButton onPress={() => navigateToCreateProduct()}>
-              <Components.ButtonLabel>Create product</Components.ButtonLabel>
-            </Components.CreateButton>
-          </Components.ButtonsWrapper>
-        ))}
+      {products.length === 0 && (
+        <Components.ButtonsWrapper>
+          <Components.CreateButton onPress={() => navigateToCreateProduct()}>
+            <Components.ButtonLabel>Create product</Components.ButtonLabel>
+          </Components.CreateButton>
+        </Components.ButtonsWrapper>
+      )}
       <InputComponent label={'Search for products'} placeholder={'Search...'} value={searchTerm} setValue={onSearch} />
       <FlatList data={products} renderItem={_renderItem} keyExtractor={(item) => item.id} />
     </Components.Container>

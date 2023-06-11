@@ -11,8 +11,6 @@ import { FlatList } from 'react-native';
 import { DiaryProductBody } from '../../../api/types/diary';
 import { format } from 'date-fns';
 import { Meal } from '../../../api/types/meal';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 
 const CreateDiary = () => {
   const navigation = useNavigation();
@@ -180,7 +178,7 @@ const CreateDiary = () => {
           <Components.ItemCellFieldDescription color={item.upvotes - item.downvotes >= 0 ? COLORS.green : COLORS.red}>
             Likes: {item.upvotes - item.downvotes}
           </Components.ItemCellFieldDescription>
-          <Components.ButtonsWrapper hasMinwidth={true}>
+          <Components.ButtonsWrapper hasMinWidth={true}>
             {diaryProducts.find((diaryProduct) => diaryProduct.id === item.id) === undefined ? (
               <Components.Button color={COLORS.green} onPress={() => _onAddProductToDiary(item)}>
                 <Components.ButtonLabel>Add</Components.ButtonLabel>
@@ -211,7 +209,7 @@ const CreateDiary = () => {
           <Components.ItemCellFieldDescription color={COLORS.green}>{`Products: ${item.products
             .map((product: Product) => product.name)
             .join(' | ')}`}</Components.ItemCellFieldDescription>
-          <Components.ButtonsWrapper hasMinwidth={true}>
+          <Components.ButtonsWrapper hasMinWidth={true}>
             <Components.Button color={COLORS.green} onPress={() => _onAddMealToDiary(item)}>
               <Components.ButtonLabel>Add All</Components.ButtonLabel>
             </Components.Button>

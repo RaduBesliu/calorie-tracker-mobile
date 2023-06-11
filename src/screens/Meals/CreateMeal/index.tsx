@@ -54,7 +54,7 @@ const CreateMeal = () => {
     apiFetch({
       path: `/product/search/${searchTermRef.current.toLowerCase()}`,
     }).then((data) => {
-      setProducts(data?.products);
+      setProducts(data?.products ?? ([] as Product[]));
     });
   };
 
@@ -87,22 +87,17 @@ const CreateMeal = () => {
     ({ item }: { item: Product }) => {
       return (
         <Components.ItemCell>
-          {Object.keys(item).map((key) => {
-            if (key === 'id') {
-              return null;
-            }
-
-            return (
-              <Components.ItemCellDetails>
-                <Components.ItemCellFieldTitle key={item.id + key}>{key}</Components.ItemCellFieldTitle>
-                <Components.ItemCellFieldDescription key={item.id + key + 'value'}>
-                  {/*@ts-ignore*/}
-                  {item[key]}
-                </Components.ItemCellFieldDescription>
-              </Components.ItemCellDetails>
-            );
-          })}
-          <Components.ButtonsWrapper>
+          <Components.Label>{item.name}</Components.Label>
+          <Components.ItemCellFieldDescription
+            color={COLORS.orange}>{`Carbs: ${item.carbs}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription
+            color={COLORS.lightGreen}>{`Protein: ${item.protein}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription
+            color={COLORS.blue}>{`Fat: ${item.fat}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription color={item.upvotes - item.downvotes >= 0 ? COLORS.green : COLORS.red}>
+            Likes: {item.upvotes - item.downvotes}
+          </Components.ItemCellFieldDescription>
+          <Components.ButtonsWrapper hasMinWidth={true}>
             {mealProducts.find((mealProduct) => mealProduct.id === item.id) === undefined ? (
               <Components.Button color={COLORS.green} onPress={() => _onAddProduct(item)}>
                 <Components.ButtonLabel>Add</Components.ButtonLabel>
@@ -123,22 +118,17 @@ const CreateMeal = () => {
     ({ item }: { item: Product }) => {
       return (
         <Components.ItemCell>
-          {Object.keys(item).map((key) => {
-            if (key === 'id') {
-              return null;
-            }
-
-            return (
-              <Components.ItemCellDetails>
-                <Components.ItemCellFieldTitle key={item.id + key}>{key}</Components.ItemCellFieldTitle>
-                <Components.ItemCellFieldDescription key={item.id + key + 'value'}>
-                  {/*@ts-ignore*/}
-                  {item[key]}
-                </Components.ItemCellFieldDescription>
-              </Components.ItemCellDetails>
-            );
-          })}
-          <Components.ButtonsWrapper>
+          <Components.Label>{item.name}</Components.Label>
+          <Components.ItemCellFieldDescription
+            color={COLORS.orange}>{`Carbs: ${item.carbs}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription
+            color={COLORS.lightGreen}>{`Protein: ${item.protein}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription
+            color={COLORS.blue}>{`Fat: ${item.fat}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription color={COLORS.green}>
+            Quantity: {mealProductsBody.find((mealProduct) => mealProduct.product_id === item.id)?.quantity_grams}g
+          </Components.ItemCellFieldDescription>
+          <Components.ButtonsWrapper hasMinWidth={true}>
             <Components.Button color={COLORS.red} onPress={() => _onRemoveProduct(item)}>
               <Components.ButtonLabel>Remove</Components.ButtonLabel>
             </Components.Button>
@@ -151,7 +141,7 @@ const CreateMeal = () => {
 
   return (
     <Components.Container>
-      {searchTerm.trim() === '' && (
+      {products.length === 0 && (
         <InputComponent label={'Name'} placeholder={'Name...'} value={name} setValue={setName} />
       )}
       <InputComponent
@@ -161,7 +151,9 @@ const CreateMeal = () => {
         setValue={setQuantityGrams}
       />
       <InputComponent label={'Search for products'} placeholder={'Search...'} value={searchTerm} setValue={onSearch} />
-      <FlatList data={products} renderItem={_renderAllProductsItem} keyExtractor={(item) => item.id} />
+      {products.length !== 0 && (
+        <FlatList data={products} renderItem={_renderAllProductsItem} keyExtractor={(item) => item.id} />
+      )}
       {products.length === 0 && mealProducts.length !== 0 && (
         <>
           <Components.ButtonsWrapper>

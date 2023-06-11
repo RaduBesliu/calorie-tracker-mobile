@@ -40,9 +40,9 @@ export const Components = {
     margin-top: 8px;
   `,
 
-  ButtonsWrapper: styled.View<{ hasMinwidth?: boolean }>`
+  ButtonsWrapper: styled.View<{ hasMinWidth?: boolean }>`
     margin-top: 16px;
-    ${(props) => props.hasMinwidth && 'min-width: 60%;'}
+    ${(props) => props.hasMinWidth && 'min-width: 60%;'}
     max-width: 100%;
     height: 48px;
     flex-direction: row;
