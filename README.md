@@ -65,6 +65,7 @@ This is a link to the [backlog roadmap](https://mirama.atlassian.net/jira/softwa
 - Backend - Python, FastAPI, PostgreSQL, Docker, GitHub Actions, Render, poethepoet
 
 ### 7. Automated tests
+- For testing our backend we opted for an end-to-end testing approach. We used the [pytest](https://docs.pytest.org/en/6.2.x/) framework for writing and running our tests. We also used the [pytest-asyncio](https://pypi.org/project/pytest-asyncio/) plugin for writing async tests. In order to run our test we start a docker container with a non-persistent database and change the environment of our app using .env files. We also used the [pytest-cov](https://pypi.org/project/pytest-cov/) plugin for generating coverage reports.
 - [Tests folder](https://github.com/hutanmihai/calorie-tracker-backend/tree/main/app/tests)
 
 ### 8. Refactoring & code standards
@@ -80,8 +81,8 @@ This is a link to the [backlog roadmap](https://mirama.atlassian.net/jira/softwa
 
 ### 9. Design Patterns
 - We used the Repository Pattern for the backend. The repository pattern is a kind of container where data access logic is stored. It hides the details of data access logic from business logic. In other words, we can say that the repository pattern acts as an in-memory collection of entities where data access logic is stored.
-- In our backend we also used Decorators which are a design pattern promoted by python itself. The main usecase for it is in our APIs, where we have a decorator that checks if the user is authenticated or not. Here is the [decorator file](https://github.com/hutanmihai/calorie-tracker-backend/blob/main/app/auth/auth_bearer.py).
-
+- At some degree we can also consider our app a MVC app, as in our backend we have our model and controller layers represented by the [models](https://github.com/hutanmihai/calorie-tracker-backend/tree/0cb48baa4c8dcb6f1308b91f130d98885b34826f/app/models) and
+the [APIs](https://github.com/hutanmihai/calorie-tracker-backend/tree/0cb48baa4c8dcb6f1308b91f130d98885b34826f/app/apis). Our view layer is represented by the frontend.
 
 ### 10. AI Tools used in development
 - During the development of the project, we used [GitHub Copilot](https://github.com/features/copilot) which was mostly used for writing repetitive lines of code. One example would be the custom errors [here](https://github.com/hutanmihai/calorie-tracker-backend/blob/main/app/services/errors.py) and [here](https://github.com/hutanmihai/calorie-tracker-backend/blob/main/app/repositories/errors.py).
