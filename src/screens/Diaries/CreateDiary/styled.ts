@@ -12,18 +12,20 @@ export const Components = {
     color: ${COLORS.green};
     font-weight: bold;
     font-size: 24px;
+    text-transform: capitalize;
   `,
 
   ItemCell: styled.View`
-    width: 82%;
-    background-color: ${COLORS.brown};
-    margin-vertical: 24px;
+    width: 100%;
+    border: 1px solid ${COLORS.gold};
+    margin-vertical: 16px;
     border-radius: 8px;
     padding: 16px;
-    margin-left: 20px;
   `,
 
-  ItemCellDetails: styled.View``,
+  ItemCellDetails: styled.View`
+    flex-direction: row;
+  `,
 
   ItemCellFieldTitle: styled.Text`
     color: ${COLORS.black};
@@ -32,15 +34,16 @@ export const Components = {
     text-transform: capitalize;
   `,
 
-  ItemCellFieldDescription: styled.Text`
-    color: ${COLORS.black};
+  ItemCellFieldDescription: styled.Text<{ color?: string }>`
+    color: ${(props) => props.color || COLORS.black};
     font-size: 20px;
-    margin-bottom: 8px;
+    margin-top: 8px;
   `,
 
-  ButtonsWrapper: styled.View`
+  ButtonsWrapper: styled.View<{ hasMinWidth?: boolean }>`
     margin-top: 16px;
-    width: 100%;
+    ${(props) => props.hasMinWidth && 'min-width: 60%;'}
+    max-width: 100%;
     height: 48px;
     flex-direction: row;
     justify-content: space-around;

@@ -9,21 +9,24 @@ export const Components = {
   `,
 
   Label: styled.Text`
-    color: ${COLORS.green};
+    color: ${COLORS.gold};
     font-weight: bold;
     font-size: 24px;
+    text-transform: capitalize;
+    margin-bottom: 8px;
   `,
 
   ItemCell: styled.View`
-    width: 90%;
-    background-color: ${COLORS.brown};
-    margin-vertical: 24px;
+    width: 100%;
+    border: 1px solid ${COLORS.gold};
+    margin-vertical: 16px;
     border-radius: 8px;
     padding: 16px;
-    margin-left: 20px;
   `,
 
-  ItemCellDetails: styled.View``,
+  ItemCellDetails: styled.View`
+    flex-direction: row;
+  `,
 
   ItemCellFieldTitle: styled.Text`
     color: ${COLORS.black};
@@ -32,27 +35,35 @@ export const Components = {
     text-transform: capitalize;
   `,
 
-  ItemCellFieldDescription: styled.Text`
-    color: ${COLORS.black};
+  ItemCellFieldDescription: styled.Text<{ color?: string }>`
+    color: ${(props) => props.color || COLORS.black};
     font-size: 20px;
     margin-bottom: 8px;
   `,
 
   ButtonsWrapper: styled.View`
-    margin-top: 16px;
-    width: 100%;
-    height: 48px;
+    max-width: 100%;
     flex-direction: row;
-    justify-content: space-around;
+    align-items: center;
+    justify-content: space-between;
   `,
 
-  Button: styled.TouchableOpacity<{ color: string }>`
-    width: 40%;
-    background-color: ${(props) => props.color};
+  Button: styled.TouchableOpacity`
     align-items: center;
     justify-content: center;
-    padding-vertical: 8px;
+    margin-bottom: 8px;
+    margin-left: 16px;
+  `,
+
+  CreateButton: styled.TouchableOpacity`
+    margin-top: 16px;
+    margin-bottom: 8px;
     border-radius: 8px;
+    width: 40%;
+    height: 48px;
+    background-color: ${COLORS.green};
+    align-items: center;
+    justify-content: center;
   `,
 
   ButtonLabel: styled.Text`

@@ -18,7 +18,6 @@ const CreateDiary = () => {
   const [diaryProducts, setDiaryProducts] = useState<Product[]>([]);
   const [diaryProductsBody, setDiaryProductsBody] = useState<DiaryProductBody[]>([]);
 
-  const [name, setName] = useState('');
   const [quantityGrams, setQuantityGrams] = useState('');
 
   const [products, setProducts] = useState<Product[]>([]);
@@ -81,7 +80,7 @@ const CreateDiary = () => {
     apiFetch({
       path: `/product/search/${searchProductsTermRef.current.toLowerCase()}`,
     }).then((data) => {
-      setProducts(data?.products);
+      setProducts(data?.products ?? ([] as Product[]));
     });
   };
 
@@ -100,7 +99,7 @@ const CreateDiary = () => {
 
   const searchProductsHandler = useCallback(_.debounce(onDebouncedProductsSearch, 1000), []);
 
-  const searchMealsHandler = useCallback(_.debounce(onDebouncedMealsSearch, 1000), []);
+  const searchMealsHandler = useCallback(_.debounce(onDebouncedMealsSearch, 1000), [meals]);
 
   const onSearchProducts = async (text: string) => {
     setSearchProductsTerm(text);
@@ -132,6 +131,8 @@ const CreateDiary = () => {
   };
 
   const _onAddMealToDiary = async (meal: Meal) => {
+    let _diaryProducts: Product[] = [];
+    let _diaryProductsBody: DiaryProductBody[] = [];
     meal.products.forEach((product) => {
       if (diaryProducts.find((diaryProduct) => diaryProduct.id === product.id) === undefined) {
         const diaryProductBody: DiaryProductBody = {
@@ -139,24 +140,26 @@ const CreateDiary = () => {
           quantity_grams: product.quantity_grams,
         };
 
-        setDiaryProducts([...diaryProducts, product]);
-        setDiaryProductsBody([...diaryProductsBody, diaryProductBody]);
-      } else {
-        setDiaryProductsBody((prev) => {
-          return prev.map((diaryProduct) => {
-            if (diaryProduct.product_id === product.id) {
-              return {
-                ...diaryProduct,
-                quantity_grams: diaryProduct.quantity_grams + product.quantity_grams,
-              };
-            }
+        console.log('diaryProductBody', diaryProductBody);
 
-            return diaryProduct;
-          });
+        _diaryProducts.push(product);
+        _diaryProductsBody.push(diaryProductBody);
+      } else {
+        _diaryProductsBody = _diaryProductsBody.map((diaryProduct) => {
+          if (diaryProduct.product_id === product.id) {
+            return {
+              ...diaryProduct,
+              quantity_grams: diaryProduct.quantity_grams + product.quantity_grams,
+            };
+          }
+
+          return diaryProduct;
         });
       }
     });
 
+    setDiaryProducts([...diaryProducts, ..._diaryProducts]);
+    setDiaryProductsBody([...diaryProductsBody, ..._diaryProductsBody]);
     setSearchMealsTerm('');
     setFilteredMeals([] as Meal[]);
   };
@@ -165,22 +168,17 @@ const CreateDiary = () => {
     ({ item }: { item: Product }) => {
       return (
         <Components.ItemCell>
-          {Object.keys(item).map((key) => {
-            if (key === 'id') {
-              return null;
-            }
-
-            return (
-              <Components.ItemCellDetails>
-                <Components.ItemCellFieldTitle key={item.id + key}>{key}</Components.ItemCellFieldTitle>
-                <Components.ItemCellFieldDescription key={item.id + key + 'value'}>
-                  {/*@ts-ignore*/}
-                  {item[key]}
-                </Components.ItemCellFieldDescription>
-              </Components.ItemCellDetails>
-            );
-          })}
-          <Components.ButtonsWrapper>
+          <Components.Label>{item.name}</Components.Label>
+          <Components.ItemCellFieldDescription
+            color={COLORS.orange}>{`Carbs: ${item.carbs}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription
+            color={COLORS.lightGreen}>{`Protein: ${item.protein}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription
+            color={COLORS.blue}>{`Fat: ${item.fat}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription color={item.upvotes - item.downvotes >= 0 ? COLORS.green : COLORS.red}>
+            Likes: {item.upvotes - item.downvotes}
+          </Components.ItemCellFieldDescription>
+          <Components.ButtonsWrapper hasMinWidth={true}>
             {diaryProducts.find((diaryProduct) => diaryProduct.id === item.id) === undefined ? (
               <Components.Button color={COLORS.green} onPress={() => _onAddProductToDiary(item)}>
                 <Components.ButtonLabel>Add</Components.ButtonLabel>
@@ -201,22 +199,17 @@ const CreateDiary = () => {
     ({ item }: { item: Meal }) => {
       return (
         <Components.ItemCell>
-          {Object.keys(item).map((key) => {
-            if (key === 'id') {
-              return null;
-            }
-
-            return (
-              <Components.ItemCellDetails>
-                <Components.ItemCellFieldTitle key={item.id + key}>{key}</Components.ItemCellFieldTitle>
-                <Components.ItemCellFieldDescription key={item.id + key + 'value'}>
-                  {/*@ts-ignore*/}
-                  {key !== 'products' ? item[key] : item[key].map((product: Product) => product.name).join(', ')}
-                </Components.ItemCellFieldDescription>
-              </Components.ItemCellDetails>
-            );
-          })}
-          <Components.ButtonsWrapper>
+          <Components.Label>{item.name}</Components.Label>
+          <Components.ItemCellFieldDescription
+            color={COLORS.orange}>{`Carbs: ${item.total_carbs}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription
+            color={COLORS.lightGreen}>{`Protein: ${item.total_protein}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription
+            color={COLORS.blue}>{`Fat: ${item.total_fat}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription color={COLORS.green}>{`Products: ${item.products
+            .map((product: Product) => product.name)
+            .join(' | ')}`}</Components.ItemCellFieldDescription>
+          <Components.ButtonsWrapper hasMinWidth={true}>
             <Components.Button color={COLORS.green} onPress={() => _onAddMealToDiary(item)}>
               <Components.ButtonLabel>Add All</Components.ButtonLabel>
             </Components.Button>
@@ -231,26 +224,16 @@ const CreateDiary = () => {
     ({ item }: { item: Product }) => {
       return (
         <Components.ItemCell>
-          {Object.keys(item).map((key) => {
-            if (key === 'id') {
-              return null;
-            }
-
-            return (
-              <Components.ItemCellDetails>
-                <Components.ItemCellFieldTitle key={item.id + key}>{key}</Components.ItemCellFieldTitle>
-                <Components.ItemCellFieldDescription key={item.id + key + 'value'}>
-                  {/*@ts-ignore*/}
-                  {item[key]}
-                </Components.ItemCellFieldDescription>
-              </Components.ItemCellDetails>
-            );
-          })}
-          <Components.ButtonsWrapper>
-            <Components.Button color={COLORS.red} onPress={() => _onRemoveProductFromDiary(item)}>
-              <Components.ButtonLabel>Remove</Components.ButtonLabel>
-            </Components.Button>
-          </Components.ButtonsWrapper>
+          <Components.Label>{item.name}</Components.Label>
+          <Components.ItemCellFieldDescription
+            color={COLORS.orange}>{`Carbs: ${item.carbs}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription
+            color={COLORS.lightGreen}>{`Protein: ${item.protein}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription
+            color={COLORS.blue}>{`Fat: ${item.fat}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription color={COLORS.green}>
+            Quantity: {diaryProductsBody.find((diaryProduct) => diaryProduct.product_id === item.id)?.quantity_grams}g
+          </Components.ItemCellFieldDescription>
         </Components.ItemCell>
       );
     },
@@ -259,10 +242,7 @@ const CreateDiary = () => {
 
   return (
     <Components.Container>
-      {searchMealsTerm.trim() === '' && searchProductsTerm.trim() === '' && (
-        <InputComponent label={'Name'} placeholder={'Name...'} value={name} setValue={setName} />
-      )}
-      {filteredMeals?.length === 0 && (
+      {filteredMeals.length == 0 && (
         <InputComponent
           label={'Quantity in grams'}
           placeholder={'Quantity in grams...'}
@@ -270,7 +250,7 @@ const CreateDiary = () => {
           setValue={setQuantityGrams}
         />
       )}
-      {searchProductsTerm.trim() === '' && (
+      {products?.length == 0 && quantityGrams.trim() === '' && (
         <InputComponent
           label={'Search for meals'}
           placeholder={'Search...'}
@@ -279,7 +259,7 @@ const CreateDiary = () => {
         />
       )}
 
-      {searchMealsTerm.trim() === '' && (
+      {filteredMeals.length == 0 && (
         <InputComponent
           label={'Search for products'}
           placeholder={'Search...'}
@@ -287,8 +267,12 @@ const CreateDiary = () => {
           setValue={onSearchProducts}
         />
       )}
-      <FlatList data={products} renderItem={_renderAllProductsItem} keyExtractor={(item) => item.id} />
-      <FlatList data={filteredMeals} renderItem={_renderAllMeals} keyExtractor={(item) => item.id} />
+      {products?.length !== 0 && (
+        <FlatList data={products} renderItem={_renderAllProductsItem} keyExtractor={(item) => item.id} />
+      )}
+      {filteredMeals.length !== 0 && (
+        <FlatList data={filteredMeals} renderItem={_renderAllMeals} keyExtractor={(item) => item.id} />
+      )}
       {products?.length === 0 && diaryProducts?.length !== 0 && filteredMeals?.length === 0 && (
         <>
           <Components.ButtonsWrapper>
