@@ -87,7 +87,7 @@ const Products = () => {
           color={COLORS.blue}>{`Fat: ${item.fat}g`}</Components.ItemCellFieldDescription>
         <Components.ButtonsWrapper>
           <Components.ItemCellFieldDescription color={item.upvotes - item.downvotes >= 0 ? COLORS.green : COLORS.red}>
-            {item.upvotes - item.downvotes}
+            Likes: {item.upvotes - item.downvotes}
           </Components.ItemCellFieldDescription>
           <Components.ItemCellDetails>
             <Components.Button onPress={() => _onUpvote(item)}>

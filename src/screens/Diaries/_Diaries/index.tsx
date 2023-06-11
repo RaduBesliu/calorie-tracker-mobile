@@ -50,24 +50,19 @@ const Diaries = () => {
     ({ item }: { item: Diary }) => {
       return (
         <Components.ItemCell>
-          {Object.keys(item).map((key) => {
-            if (key === 'id') {
-              return null;
-            }
-
-            return (
-              <Components.ItemCellDetails>
-                <Components.ItemCellFieldTitle key={item.id + key}>{key}</Components.ItemCellFieldTitle>
-                <Components.ItemCellFieldDescription key={item.id + key + 'value'}>
-                  {/*@ts-ignore*/}
-                  {key !== 'products' ? item[key] : item[key].map((product: Product) => product.name).join(', ')}
-                </Components.ItemCellFieldDescription>
-              </Components.ItemCellDetails>
-            );
-          })}
-          <Components.ButtonsWrapper>
+          <Components.Label>Today's Diary</Components.Label>
+          <Components.ItemCellFieldDescription
+            color={COLORS.orange}>{`Carbs: ${item.total_carbs}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription
+            color={COLORS.lightGreen}>{`Protein: ${item.total_protein}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription
+            color={COLORS.blue}>{`Fat: ${item.total_fat}g`}</Components.ItemCellFieldDescription>
+          <Components.ItemCellFieldDescription color={COLORS.green}>{`Products: ${item.products
+            .map((product: Product) => product.name)
+            .join(' | ')}`}</Components.ItemCellFieldDescription>
+          <Components.ButtonsWrapper hasMinwidth={true}>
             <Components.Button color={COLORS.red} onPress={() => _deleteDiary(item)}>
-              <Components.ButtonLabel>Delete</Components.ButtonLabel>
+              <Components.ButtonLabel>Remove</Components.ButtonLabel>
             </Components.Button>
           </Components.ButtonsWrapper>
         </Components.ItemCell>
