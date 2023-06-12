@@ -19,9 +19,7 @@ const Account = () => {
 
   // User input hooks
   const [name, setName] = useState<string | undefined>();
-  const [preferredHeightMetric, setPreferredHeightMetric] = useState<string | undefined>();
   const [height, setHeight] = useState<string | undefined>();
-  const [preferredWeightMetric, setPreferredWeightMetric] = useState<string | undefined>();
   const [weight, setWeight] = useState<string | undefined>();
   const [targetWeight, setTargetWeight] = useState<string | undefined>();
   const [targetCalories, setTargetCalories] = useState<string | undefined>();
@@ -33,9 +31,7 @@ const Account = () => {
     }
 
     setName(user.name);
-    setPreferredHeightMetric(user.pref_height_metric);
     setHeight(user.height?.toString());
-    setPreferredWeightMetric(user.pref_weight_metric);
     setWeight(user.weight?.toString());
     setTargetWeight(user.target_weight?.toString());
     setTargetCalories(user.target_calories?.toString());
@@ -58,9 +54,9 @@ const Account = () => {
       method: 'PUT',
       body: {
         name,
-        pref_height_metric: preferredHeightMetric as UserHeightMetric,
+        pref_height_metric: 'cm',
         height: heightNumber,
-        pref_weight_metric: preferredWeightMetric as UserWeightMetric,
+        pref_weight_metric: 'kg',
         weight: weightNumber,
         target_weight: targetWeightNumber,
         target_calories: targetCaloriesNumber,
@@ -88,18 +84,6 @@ const Account = () => {
         placeholder={'Target Calories...'}
         value={targetCalories}
         setValue={setTargetCalories}
-      />
-      <InputComponent
-        label={'Preferred Height Metric'}
-        placeholder={'Preferred Height Metric...'}
-        value={preferredHeightMetric}
-        setValue={setPreferredHeightMetric}
-      />
-      <InputComponent
-        label={'Preferred Weight Metric'}
-        placeholder={'Preferred Weight Metric...'}
-        value={preferredWeightMetric}
-        setValue={setPreferredWeightMetric}
       />
       <Components.ButtonContainer>
         <Components.Button onPress={_onSave}>

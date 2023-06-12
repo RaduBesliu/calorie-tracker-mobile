@@ -5,7 +5,7 @@ export const Components = {
   Container: styled.ScrollView`
     flex: 1;
     background-color: ${COLORS.black};
-    padding-top: 16px;
+    padding-top: 80px;
   `,
 
   Button: styled.TouchableOpacity`
@@ -22,6 +22,8 @@ export const Components = {
 
   ButtonContainer: styled.View`
     flex-direction: row;
+    flex: 1;
+    align-items: flex-end;
     justify-content: space-between;
     width: 100%;
     padding: 0 19px;
