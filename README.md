@@ -74,7 +74,7 @@ This is a link to the [backlog roadmap](https://mirama.atlassian.net/jira/softwa
 - Refactored tests with new error schema [here](https://github.com/hutanmihai/calorie-tracker-backend/commit/572ffa25d919c48d2224f5f5c27a66701dbe08de)
 
 #### 8.2. Code standards
-- For the mobile part of the application, [Prettier](https://prettier.io/) was used. The configuration file for prettier can be seen [here](https://github.com/RaduBesliu/calorie-tracker-mobile/blob/main/.prettierrc.js)
+- For the mobile part of the application, [Prettier](https://prettier.io/) was used. The configuration file for prettier can be seen [here](https://github.com/RaduBesliu/calorie-tracker-mobile/blob/main/.prettierrc.js).
 - In backend we followed the [PEP8](https://www.python.org/dev/peps/pep-0008/) code style guide for Python. We made sure that every single line pushed to the repository follows the PEP8 guidelines by using the `pre-commit` tool which runs linters checkers for python code. Here are the [pre-commit configuration file](https://github.com/hutanmihai/calorie-tracker-backend/blob/main/.pre-commit-config.yaml) and the [flake8 file](https://github.com/hutanmihai/calorie-tracker-backend/blob/main/.flake8).
 - Besides the pre-commit tool, we also used GitHub Actions to run the linters checkers for python code. Here is the [workflow file](https://github.com/hutanmihai/calorie-tracker-backend/blob/main/.github/workflows/main.yaml) for GitHub Actions.
 - Inside the GitHub Actions, besides the linters, we also ran two more actions, one for running tests, and one for automated deployment on render.com.
@@ -89,7 +89,7 @@ the [APIs](https://github.com/hutanmihai/calorie-tracker-backend/tree/0cb48baa4c
 - We also used [ChatGPT](https://chat.openai.com/) for different types of error analysis and other short questions that normally would've been asked on [Stack Overflow](https://stackoverflow.com/).
 
 ### 11. Bug reports fixed with pull requests
-[Bugfix solved with pull request](https://github.com/RaduBesliu/calorie-tracker-mobile/issues/9)
+- [Bugfix solved with pull request](https://github.com/RaduBesliu/calorie-tracker-mobile/issues/9)
 
 ### 12. Commented code
 - Most of the frontend code is commented. [Here](https://github.com/RaduBesliu/calorie-tracker-mobile/blob/main/src/providers/AuthProvider/index.tsx) and [here](https://github.com/RaduBesliu/calorie-tracker-mobile/blob/main/src/api/index.tsx) you can find some examples.
