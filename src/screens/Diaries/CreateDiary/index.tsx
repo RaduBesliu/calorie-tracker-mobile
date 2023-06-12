@@ -234,6 +234,11 @@ const CreateDiary = () => {
           <Components.ItemCellFieldDescription color={COLORS.green}>
             Quantity: {diaryProductsBody.find((diaryProduct) => diaryProduct.product_id === item.id)?.quantity_grams}g
           </Components.ItemCellFieldDescription>
+          <Components.ButtonsWrapper hasMinWidth={true}>
+            <Components.Button color={COLORS.red} onPress={() => _onRemoveProductFromDiary(item)}>
+              <Components.ButtonLabel>Remove</Components.ButtonLabel>
+            </Components.Button>
+          </Components.ButtonsWrapper>
         </Components.ItemCell>
       );
     },
