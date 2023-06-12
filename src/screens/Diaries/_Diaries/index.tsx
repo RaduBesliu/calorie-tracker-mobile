@@ -7,7 +7,7 @@ import { Product } from '../../../api/types/product';
 import { FlatList } from 'react-native';
 import { Diary } from '../../../api/types/diary';
 import { format } from 'date-fns';
-import InputComponent from '../../../components/InputComponent';
+import DatePicker from 'react-native-date-picker';
 
 const Diaries = () => {
   const navigation = useNavigation();
@@ -15,11 +15,11 @@ const Diaries = () => {
 
   const [allDiaries, setAllDiaries] = useState<Diary[]>([]);
   const [diaries, setDiaries] = useState<Diary[]>([]);
-  const [filteredDiaries, setFilteredDiaries] = useState<Diary[]>([]);
-  const [searchedDate, setSearchedDate] = useState<string | undefined>();
+  const [currentDate] = useState<Date>(new Date());
+  const [date, setDate] = useState<Date>(new Date());
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
   useEffect(() => {
-    console.log(isFocused);
     if (!isFocused) {
       return;
     }
@@ -28,17 +28,17 @@ const Diaries = () => {
       path: '/diaries',
     }).then((data) => {
       setAllDiaries(data);
-      setDiaries(data.filter((diary: Diary) => diary.date === format(new Date(), 'yyyy-MM-dd')));
+      setDiaries(data.filter((diary: Diary) => diary.date === format(currentDate, 'yyyy-MM-dd')));
     });
   }, [isFocused]);
 
   useEffect(() => {
-    console.log('diaries', diaries);
-  }, [diaries]);
+    setDiaries(allDiaries.filter((diary: Diary) => diary.date === format(date, 'yyyy-MM-dd')));
+  }, [date]);
 
   useEffect(() => {
-    console.log('filteredDiaries', filteredDiaries);
-  }, [filteredDiaries]);
+    console.log('diaries', diaries);
+  }, [diaries]);
 
   const navigateToCreateDiary = () => {
     // @ts-ignore
@@ -52,17 +52,15 @@ const Diaries = () => {
     });
 
     setDiaries(diaries.filter((item) => item.id !== diary.id));
-    setFilteredDiaries(filteredDiaries.filter((item) => item.id !== diary.id));
   };
 
-  const _onDateActionPress = async () => {
-    if (filteredDiaries.length > 0) {
-      setFilteredDiaries([]);
-      setSearchedDate(undefined);
-      return;
-    }
+  const _onConfirmDateSelection = (newDate: Date) => {
+    setIsDatePickerVisible(false);
+    setDate(newDate);
+  };
 
-    setFilteredDiaries(allDiaries.filter((diary: Diary) => diary.date === searchedDate?.trim()) ?? []);
+  const _onCancelDateSelection = () => {
+    setIsDatePickerVisible(false);
   };
 
   const _renderItem = useCallback(
@@ -70,7 +68,9 @@ const Diaries = () => {
       return (
         <Components.ItemCell>
           <Components.Label>
-            {item?.date === format(new Date(), 'yyyy-MM-dd') ? "Today's Diary" : `Diary from ${item?.date}`}
+            {item?.date === format(currentDate, 'yyyy-MM-dd')
+              ? "Today's Diary"
+              : `Diary from ${format(date, 'yyyy MMM dd')}`}
           </Components.Label>
           <Components.ItemCellFieldDescription
             color={COLORS.orange}>{`Carbs: ${item.total_carbs}g`}</Components.ItemCellFieldDescription>
@@ -89,39 +89,39 @@ const Diaries = () => {
         </Components.ItemCell>
       );
     },
-    [diaries, filteredDiaries],
+    [diaries],
   );
 
   return (
     <Components.Container>
       <Components.ButtonsWrapper>
-        <Components.Button color={COLORS.green} onPress={() => _onDateActionPress()}>
-          <Components.ButtonLabel>{filteredDiaries.length > 0 ? 'Reset' : 'Search'}</Components.ButtonLabel>
+        <Components.Button color={COLORS.green} onPress={() => setIsDatePickerVisible(true)}>
+          <Components.ButtonLabel>{'Change date'}</Components.ButtonLabel>
         </Components.Button>
       </Components.ButtonsWrapper>
-      <InputComponent
-        label={'Date search'}
-        placeholder={'2023-06-15'}
-        value={searchedDate}
-        setValue={setSearchedDate}
+      <DatePicker
+        modal
+        date={date}
+        mode={'date'}
+        onDateChange={setDate}
+        open={isDatePickerVisible}
+        onConfirm={_onConfirmDateSelection}
+        onCancel={_onCancelDateSelection}
       />
-      {filteredDiaries.length > 0 ? (
-        <FlatList data={filteredDiaries} renderItem={_renderItem} keyExtractor={(item) => item.id} />
-      ) : (
-        <>
-          {diaries.length == 0 && (
-            <Components.ButtonsWrapper>
-              <Components.Button color={COLORS.green} onPress={() => navigateToCreateDiary()}>
-                <Components.ButtonLabel>{'Create diary'}</Components.ButtonLabel>
-              </Components.Button>
-            </Components.ButtonsWrapper>
-          )}
-          <Components.CreateDiaryText>
-            {diaries.length > 0 ? 'Your diary for today' : 'You have no diary for today'}
-          </Components.CreateDiaryText>
-          <FlatList data={diaries} renderItem={_renderItem} keyExtractor={(item) => item.id} />
-        </>
+      {diaries.length === 0 && date.toDateString() === currentDate.toDateString() && (
+        <Components.ButtonsWrapper>
+          <Components.Button color={COLORS.green} onPress={() => navigateToCreateDiary()}>
+            <Components.ButtonLabel>{'Create diary'}</Components.ButtonLabel>
+          </Components.Button>
+        </Components.ButtonsWrapper>
       )}
+      {diaries.length === 0 && (
+        <Components.CreateDiaryText>{`You have no diary for ${format(
+          date,
+          'yyyy MMM dd',
+        )}`}</Components.CreateDiaryText>
+      )}
+      <FlatList data={diaries} renderItem={_renderItem} keyExtractor={(item) => item.id} />
     </Components.Container>
   );
 };
