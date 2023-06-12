@@ -3,6 +3,7 @@ import { Product } from './product';
 export interface DiaryProductBody {
   product_id: string;
   quantity_grams: number;
+  is_from_meal?: boolean;
 }
 
 export interface DiaryProduct extends Product {

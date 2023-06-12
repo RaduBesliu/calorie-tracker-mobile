@@ -7,6 +7,7 @@ export const Components = {
     align-items: center;
     justify-content: center;
     background-color: ${COLORS.black};
+    padding-bottom: 48px;
   `,
 
   Button: styled.TouchableOpacity`
@@ -26,7 +27,11 @@ export const Components = {
   `,
 
   Text: styled.Text`
-    font-size: 20px;
-    color: ${COLORS.black};
+    font-size: 36px;
+    text-align: center;
+    color: ${COLORS.green};
+    padding-horizontal: 32px;
+    align-self: center;
+    margin-bottom: 100px;
   `,
 };

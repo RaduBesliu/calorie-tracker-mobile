@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Components } from './styled';
 import _ from 'lodash';
 import { Product } from '../../../api/types/product';
-import { Button, FlatList, TextInput } from 'react-native';
+import { FlatList } from 'react-native';
 import { apiFetch } from '../../../api';
 import InputComponent from '../../../components/InputComponent';
 import { COLORS } from '../../../utils/styled/constants';
@@ -11,8 +11,10 @@ import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const Products = () => {
+  // Navigation hooks
   const navigation = useNavigation();
 
+  // Product related hooks
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const searchTermRef = useRef('');
@@ -22,6 +24,7 @@ const Products = () => {
     navigation.navigate('Create Product');
   };
 
+  // Search for products
   const onDebouncedSearch = async () => {
     console.log(searchTerm);
     apiFetch({
@@ -31,14 +34,17 @@ const Products = () => {
     });
   };
 
+  // Handler for debounced search ( 1000ms )
   const searchHandler = useCallback(_.debounce(onDebouncedSearch, 1000), []);
 
+  // Set search term on input change
   const onSearch = async (text: string) => {
     setSearchTerm(text);
     searchTermRef.current = text;
     await searchHandler();
   };
 
+  // Check if product should be deleted
   const checkVotes = async (item: Product) => {
     if (item.downvotes - item.upvotes >= 9) {
       await apiFetch({
@@ -49,6 +55,7 @@ const Products = () => {
     }
   };
 
+  // Upvote product
   const _onUpvote = async (item: Product) => {
     await apiFetch({
       path: `/product/${item.id}`,
@@ -62,6 +69,7 @@ const Products = () => {
     await onDebouncedSearch();
   };
 
+  // Downvote product
   const _onDownvote = async (item: Product) => {
     await apiFetch({
       path: `/product/${item.id}`,
@@ -75,6 +83,7 @@ const Products = () => {
     await onDebouncedSearch();
   };
 
+  // Render function for FlatList
   const _renderItem = useCallback(({ item }: { item: Product }) => {
     return (
       <Components.ItemCell>

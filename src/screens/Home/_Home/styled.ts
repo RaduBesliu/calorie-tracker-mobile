@@ -7,6 +7,7 @@ export const Components = {
     background-color: ${COLORS.black};
     justify-content: flex-end;
     padding: 16px;
+    padding-bottom: 64px;
   `,
 
   WelcomeText: styled.Text`
@@ -14,7 +15,6 @@ export const Components = {
     color: ${COLORS.gold};
     font-weight: bold;
     text-align: center;
-    padding-top: 64px;
   `,
 
   TargetCaloriesText: styled.Text`
@@ -26,8 +26,8 @@ export const Components = {
   PieChartWrapper: styled.View`
     flex: 1;
     align-items: center;
-    justify-content: center;
     position: relative;
+    padding-top: 24px;
   `,
 
   CaloriesText: styled.Text<{ offset?: string }>`
@@ -74,5 +74,10 @@ export const Components = {
     font-weight: bold;
     ${({ color }) => color && `color: ${color}`};
     ${({ offset }) => offset && `top: ${offset}`};
+  `,
+
+  TextContainer: styled.View`
+    height: 150px;
+    justify-content: center;
   `,
 };

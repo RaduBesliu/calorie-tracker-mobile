@@ -15,6 +15,7 @@ const CreateProduct = () => {
 
   const navigation = useNavigation();
 
+  // Check if form is valid
   useEffect(() => {
     if (name.trim() && calories.trim() && fat.trim() && carbs.trim() && protein.trim()) {
       setIsFormValid(true);
@@ -24,6 +25,7 @@ const CreateProduct = () => {
     setIsFormValid(false);
   }, [name, calories, fat, carbs, protein]);
 
+  // Add product
   const addProduct = () => {
     const item = {
       name: name.toLowerCase(),
@@ -47,9 +49,9 @@ const CreateProduct = () => {
     <Components.Container>
       <InputComponent label={'Name'} placeholder={'Name'} value={name} setValue={setName} />
       <InputComponent label={'Calories'} placeholder={'Calories'} value={calories} setValue={setCalories} />
-      <InputComponent label={'Fat'} placeholder={'Fat'} value={fat} setValue={setFat} />
-      <InputComponent label={'Carbs'} placeholder={'Carbs'} value={carbs} setValue={setCarbs} />
-      <InputComponent label={'Protein'} placeholder={'Protein'} value={protein} setValue={setProtein} />
+      <InputComponent label={'Fat (g)'} placeholder={'Fat'} value={fat} setValue={setFat} />
+      <InputComponent label={'Carbs (g)'} placeholder={'Carbs'} value={carbs} setValue={setCarbs} />
+      <InputComponent label={'Protein (g)'} placeholder={'Protein'} value={protein} setValue={setProtein} />
       <Components.ButtonsWrapper>
         {isFormValid && (
           <Components.Button color={COLORS.green} onPress={addProduct}>

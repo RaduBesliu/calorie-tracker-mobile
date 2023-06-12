@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Components } from './styled';
-import { AuthContext } from '../../../providers/AuthProvider/context';
 
 const SplashScreen = () => {
   return (

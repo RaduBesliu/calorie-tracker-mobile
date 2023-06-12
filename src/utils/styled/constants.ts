@@ -1,3 +1,4 @@
+// Colors used in the app
 export const COLORS = {
   black: '#121619',
   gray: '#303049',

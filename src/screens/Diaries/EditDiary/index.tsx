@@ -1,22 +1,30 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Components } from './styled';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Product } from '../../../api/types/product';
 import { COLORS } from '../../../utils/styled/constants';
 import { apiFetch } from '../../../api';
 import _ from 'lodash';
 import InputComponent from '../../../components/InputComponent';
 import { FlatList } from 'react-native';
-import { DiaryProductBody } from '../../../api/types/diary';
-import { format } from 'date-fns';
+import { Diary, DiaryProductBody } from '../../../api/types/diary';
 import { Meal } from '../../../api/types/meal';
 
-const CreateDiary = () => {
+const EditDiary = () => {
   const navigation = useNavigation();
+  const diary = (useRoute().params as { diary: Diary }).diary;
 
-  const [diaryProducts, setDiaryProducts] = useState<Product[]>([]);
-  const [diaryProductsBody, setDiaryProductsBody] = useState<DiaryProductBody[]>([]);
+  const [diaryProducts, setDiaryProducts] = useState<Product[]>(diary.products);
+  const [diaryProductsBody, setDiaryProductsBody] = useState<DiaryProductBody[]>(
+    diary.products.map((product) => {
+      return {
+        product_id: product.id,
+        quantity_grams: product.quantity_grams,
+      };
+    }),
+  );
+  const [diaryDate] = useState(diary.date);
 
   const [quantityGrams, setQuantityGrams] = useState('');
 
@@ -58,16 +66,22 @@ const CreateDiary = () => {
     console.log('filteredMeals', filteredMeals);
   }, [filteredMeals]);
 
-  const _onAddDiary = async () => {
+  const _onSaveDiary = async () => {
     console.log({
-      date: format(new Date(), 'yyyy-MM-dd'),
+      date: diaryDate,
       products: diaryProductsBody,
     });
+
+    await apiFetch({
+      path: `/diary/${diary.id}`,
+      method: 'DELETE',
+    });
+
     apiFetch({
       path: `/diary`,
       method: 'POST',
       body: {
-        date: format(new Date(), 'yyyy-MM-dd'),
+        date: diaryDate,
         products: diaryProductsBody.map((diaryProduct) => {
           return {
             product_id: diaryProduct.product_id,
@@ -295,8 +309,8 @@ const CreateDiary = () => {
       {products?.length === 0 && diaryProducts?.length !== 0 && filteredMeals?.length === 0 && (
         <>
           <Components.ButtonsWrapper>
-            <Components.Button color={COLORS.green} onPress={_onAddDiary}>
-              <Components.ButtonLabel>Add Diary</Components.ButtonLabel>
+            <Components.Button color={COLORS.green} onPress={_onSaveDiary}>
+              <Components.ButtonLabel>Save Diary</Components.ButtonLabel>
             </Components.Button>
           </Components.ButtonsWrapper>
           <FlatList data={diaryProducts} renderItem={_renderDiaryProductsItem} keyExtractor={(item) => item.id} />
@@ -306,4 +320,4 @@ const CreateDiary = () => {
   );
 };
 
-export default CreateDiary;
+export default EditDiary;

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Components } from './styled';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { COLORS } from '../../../utils/styled/constants';
 import { AuthContext } from '../../../providers/AuthProvider/context';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
@@ -12,13 +11,16 @@ import { apiFetch } from '../../../api';
 import { format } from 'date-fns';
 
 const Home = () => {
+  // Navigation variables
   const navigation = useNavigation();
   const isFocused = useIsFocused();
 
   const { user } = useContext(AuthContext);
 
+  // State to store the current diary
   const [currentDiary, setCurrentDiary] = useState<Diary | null>(null);
 
+  // When the screen is focused, fetch the current diary
   useEffect(() => {
     if (!isFocused) {
       return;
@@ -37,15 +39,17 @@ const Home = () => {
 
   return (
     <Components.Container>
-      <Components.WelcomeText>{`Welcome, ${user?.name ?? 'User'}`}</Components.WelcomeText>
-      <Components.TargetCaloriesText>
-        {(currentDiary?.total_calories ?? 0) >= (user?.target_calories ?? 1)
-          ? `You have reached your target calories of ${user?.target_calories}`
-          : `You have not reached your target calories of ${user?.target_calories} yet`}
-      </Components.TargetCaloriesText>
+      <Components.TextContainer>
+        <Components.WelcomeText>{`Welcome, ${user?.name ?? 'User'}!`}</Components.WelcomeText>
+        <Components.TargetCaloriesText>
+          {(currentDiary?.total_calories ?? 0) >= (user?.target_calories ?? 1)
+            ? `You have reached your target calories of ${user?.target_calories}.`
+            : `You have not reached your target calories of ${user?.target_calories} yet.`}
+        </Components.TargetCaloriesText>
+      </Components.TextContainer>
       <Components.PieChartWrapper>
-        <Components.CaloriesText offset={'45%'}>Calories</Components.CaloriesText>
-        <Components.CaloriesText offset={'50%'}>{currentDiary?.total_calories ?? 0}</Components.CaloriesText>
+        <Components.CaloriesText offset={'27%'}>Calories</Components.CaloriesText>
+        <Components.CaloriesText offset={'35%'}>{currentDiary?.total_calories ?? 0}</Components.CaloriesText>
         <PieChart
           widthAndHeight={SCREEN_WIDTH / 2}
           series={[currentDiary?.total_carbs ?? 0, currentDiary?.total_protein ?? 0, currentDiary?.total_fat ?? 1]}
@@ -53,13 +57,13 @@ const Home = () => {
           coverRadius={0.9}
           coverFill={COLORS.black}
         />
-        <Components.AdditionalInfo color={COLORS.orange} offset={'77%'}>
+        <Components.AdditionalInfo color={COLORS.orange} offset={'65%'}>
           {`Carbs: ${currentDiary?.total_carbs ?? 0}g`}
         </Components.AdditionalInfo>
-        <Components.AdditionalInfo color={COLORS.lightGreen} offset={'82%'}>
+        <Components.AdditionalInfo color={COLORS.lightGreen} offset={'72%'}>
           {`Protein: ${currentDiary?.total_protein ?? 0}g`}
         </Components.AdditionalInfo>
-        <Components.AdditionalInfo color={COLORS.blue} offset={'87%'}>
+        <Components.AdditionalInfo color={COLORS.blue} offset={'79%'}>
           {`Fat: ${currentDiary?.total_fat ?? 0}g`}
         </Components.AdditionalInfo>
       </Components.PieChartWrapper>
