@@ -29,10 +29,10 @@ const CreateProduct = () => {
   const addProduct = () => {
     const item = {
       name: name.toLowerCase(),
-      calories: parseInt(calories),
-      fat: parseInt(fat),
-      carbs: parseInt(carbs),
-      protein: parseInt(protein),
+      calories: parseFloat(calories).toFixed(2),
+      fat: parseFloat(fat).toFixed(2),
+      carbs: parseFloat(carbs).toFixed(2),
+      protein: parseFloat(protein).toFixed(2),
     };
     console.log(item);
     apiFetch({
