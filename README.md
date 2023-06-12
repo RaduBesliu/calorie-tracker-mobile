@@ -88,6 +88,12 @@ the [APIs](https://github.com/hutanmihai/calorie-tracker-backend/tree/0cb48baa4c
 - During the development of the project, we used [GitHub Copilot](https://github.com/features/copilot) which was mostly used for writing repetitive lines of code. One example would be the custom errors [here](https://github.com/hutanmihai/calorie-tracker-backend/blob/main/app/services/errors.py) and [here](https://github.com/hutanmihai/calorie-tracker-backend/blob/main/app/repositories/errors.py).
 - We also used [ChatGPT](https://chat.openai.com/) for different types of error analysis and other short questions that normally would've been asked on [Stack Overflow](https://stackoverflow.com/).
 
+### 11. Bug reports fixed with pull requests
+[Bugfix solved with pull request](https://github.com/RaduBesliu/calorie-tracker-mobile/issues/9)
+
+### 12. Commented code
+- Most of the frontend code is commented. [Here](https://github.com/RaduBesliu/calorie-tracker-mobile/blob/main/src/providers/AuthProvider/index.tsx) and [here](https://github.com/RaduBesliu/calorie-tracker-mobile/blob/main/src/api/index.tsx) you can find some examples.
+
 ## Backend Documentation
 - [Readme](https://github.com/hutanmihai/calorie-tracker-backend/blob/main/README.md)
 - [PDF](https://github.com/hutanmihai/calorie-tracker-backend/blob/main/MDSBackendDocumentation.pdf)
