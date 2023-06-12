@@ -13,10 +13,13 @@ import CreateMeal from './src/screens/Meals/CreateMeal';
 import Diaries from './src/screens/Diaries/_Diaries';
 import CreateDiary from './src/screens/Diaries/CreateDiary';
 import Account from './src/screens/Account/_Account';
+import EditMeal from './src/screens/Meals/EditMeal';
+import EditDiary from './src/screens/Diaries/EditDiary';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  // Import AuthContext and use it to check if user is logged in
   const { isLoggedIn, isLoading } = useContext(AuthContext);
 
   useEffect(() => {
@@ -40,12 +43,14 @@ const App = () => {
               <Stack.Group>
                 <Stack.Screen name='Home' component={Home} />
                 <Stack.Screen name='Account' component={Account} />
-                <Stack.Screen name='Diaries' component={Diaries} />
-                <Stack.Screen name='Meals' component={Meals} />
-                <Stack.Screen name='Create Diary' component={CreateDiary} />
-                <Stack.Screen name='Create Meal' component={CreateMeal} />
                 <Stack.Screen name='Products' component={Products} />
                 <Stack.Screen name='Create Product' component={CreateProduct} />
+                <Stack.Screen name='Meals' component={Meals} />
+                <Stack.Screen name='Create Meal' component={CreateMeal} />
+                <Stack.Screen name='Edit Meal' component={EditMeal} />
+                <Stack.Screen name='Diaries' component={Diaries} />
+                <Stack.Screen name='Create Diary' component={CreateDiary} />
+                <Stack.Screen name='Edit Diary' component={EditDiary} />
               </Stack.Group>
             ) : (
               <Stack.Group>

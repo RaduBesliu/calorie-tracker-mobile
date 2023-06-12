@@ -22,11 +22,13 @@ export const apiFetch = async ({
     return;
   }
 
+  // Set the default headers
   const defaultHeaders = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
   };
 
+  // Set the authorization headers
   const authHeaders = {
     Authorization: `Bearer ${isAdmin ? ADMIN_JWT : userJWT}`,
   };

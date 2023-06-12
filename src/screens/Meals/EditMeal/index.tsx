@@ -1,27 +1,39 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Components } from './styled';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Product } from '../../../api/types/product';
-import { MealProductBody } from '../../../api/types/meal';
+import { Meal, MealProductBody } from '../../../api/types/meal';
 import { COLORS } from '../../../utils/styled/constants';
 import { apiFetch } from '../../../api';
 import _ from 'lodash';
 import InputComponent from '../../../components/InputComponent';
 import { FlatList } from 'react-native';
 
-const CreateMeal = () => {
+const EditMeal = () => {
   const navigation = useNavigation();
+  const meal = (useRoute().params as { meal: Meal }).meal;
 
-  const [mealProducts, setMealProducts] = useState<Product[]>([]);
-  const [mealProductsBody, setMealProductsBody] = useState<MealProductBody[]>([]);
+  const [mealProducts, setMealProducts] = useState<Product[]>(meal.products);
+  const [mealProductsBody, setMealProductsBody] = useState<MealProductBody[]>(
+    meal.products.map((product) => {
+      return {
+        product_id: product.id,
+        quantity_grams: product.quantity_grams,
+      };
+    }),
+  );
 
-  const [name, setName] = useState('');
+  const [name, setName] = useState(meal.name);
   const [quantityGrams, setQuantityGrams] = useState('');
 
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const searchTermRef = useRef('');
+
+  useEffect(() => {
+    console.log('meal', meal);
+  }, []);
 
   useEffect(() => {
     console.log('mealProducts', mealProducts);
@@ -31,11 +43,17 @@ const CreateMeal = () => {
     console.log('mealProductsBody', mealProductsBody);
   }, [mealProductsBody]);
 
-  const _onAddMeal = async () => {
+  const _onSaveMeal = async () => {
     console.log({
       name: name || 'New Meal',
       products: mealProductsBody,
     });
+
+    await apiFetch({
+      path: `/meal/${meal.id}`,
+      method: 'DELETE',
+    });
+
     apiFetch({
       path: `/meal`,
       method: 'POST',
@@ -165,8 +183,8 @@ const CreateMeal = () => {
       {products.length === 0 && mealProducts.length !== 0 && (
         <>
           <Components.ButtonsWrapper>
-            <Components.Button color={COLORS.green} onPress={_onAddMeal}>
-              <Components.ButtonLabel>Add meal</Components.ButtonLabel>
+            <Components.Button color={COLORS.green} onPress={_onSaveMeal}>
+              <Components.ButtonLabel>Save meal</Components.ButtonLabel>
             </Components.Button>
           </Components.ButtonsWrapper>
           <FlatList data={mealProducts} renderItem={_renderMealProductsItem} keyExtractor={(item) => item.id} />
@@ -176,4 +194,4 @@ const CreateMeal = () => {
   );
 };
 
-export default CreateMeal;
+export default EditMeal;

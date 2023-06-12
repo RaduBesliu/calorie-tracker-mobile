@@ -18,6 +18,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Check if user is logged in on app start
   useEffect(() => {
     console.log('[AUTH] Checking if user is logged in');
+    // Search for userJWT in AsyncStorage
     AsyncStorage.getItem('userJWT').then((userJWT) => {
       setIsLoading(false);
       // If userJWT is found, set userJWT, user and isLoggedIn

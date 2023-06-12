@@ -5,11 +5,12 @@ export const Components = {
   Container: styled.ScrollView`
     flex: 1;
     background-color: ${COLORS.black};
+    padding-top: 16px;
   `,
 
   Button: styled.TouchableOpacity`
-    width: 50%;
-    height: 40px;
+    width: 45%;
+    height: 48px;
     flex-direction: row;
     gap: 4px;
     background-color: ${COLORS.green};
@@ -17,6 +18,13 @@ export const Components = {
     align-items: center;
     border-radius: 8px;
     margin-top: 24px;
+  `,
+
+  ButtonContainer: styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 19px;
   `,
 
   ButtonLabel: styled.Text`

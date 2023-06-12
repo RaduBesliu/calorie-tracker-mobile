@@ -6,7 +6,7 @@ import { apiFetch } from '../../../api';
 import { Product } from '../../../api/types/product';
 import { FlatList } from 'react-native';
 import { Diary } from '../../../api/types/diary';
-import { format } from 'date-fns';
+import { addDays, format } from 'date-fns';
 import DatePicker from 'react-native-date-picker';
 
 const Diaries = () => {
@@ -19,6 +19,7 @@ const Diaries = () => {
   const [date, setDate] = useState<Date>(new Date());
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
+  // Refresh diaries on focus
   useEffect(() => {
     if (!isFocused) {
       return;
@@ -43,6 +44,11 @@ const Diaries = () => {
   const navigateToCreateDiary = () => {
     // @ts-ignore
     navigation.navigate('Create Diary');
+  };
+
+  const _editDiary = async (diary: Diary) => {
+    // @ts-ignore
+    navigation.navigate('Edit Diary', { diary });
   };
 
   const _deleteDiary = async (diary: Diary) => {
@@ -79,9 +85,12 @@ const Diaries = () => {
           <Components.ItemCellFieldDescription
             color={COLORS.blue}>{`Fat: ${item.total_fat}g`}</Components.ItemCellFieldDescription>
           <Components.ItemCellFieldDescription color={COLORS.green}>{`Products: ${item.products
-            .map((product: Product) => product.name)
-            .join(' | ')}`}</Components.ItemCellFieldDescription>
+            .map((product: Product) => '\n   • ' + product.name)
+            .join('')}`}</Components.ItemCellFieldDescription>
           <Components.ButtonsWrapper hasMinwidth={true}>
+            <Components.Button color={COLORS.blue} onPress={() => _editDiary(item)}>
+              <Components.ButtonLabel>Edit</Components.ButtonLabel>
+            </Components.Button>
             <Components.Button color={COLORS.red} onPress={() => _deleteDiary(item)}>
               <Components.ButtonLabel>Remove</Components.ButtonLabel>
             </Components.Button>
@@ -102,6 +111,7 @@ const Diaries = () => {
       <DatePicker
         modal
         date={date}
+        maximumDate={currentDate}
         mode={'date'}
         onDateChange={setDate}
         open={isDatePickerVisible}
@@ -116,10 +126,9 @@ const Diaries = () => {
         </Components.ButtonsWrapper>
       )}
       {diaries.length === 0 && (
-        <Components.CreateDiaryText>{`You have no diary for ${format(
-          date,
-          'yyyy MMM dd',
-        )}`}</Components.CreateDiaryText>
+        <Components.CreateDiaryText>{`You have no diary for ${
+          currentDate.toDateString() === date.toDateString() ? 'today.' : format(date, 'yyyy MMM dd') + '.'
+        }`}</Components.CreateDiaryText>
       )}
       <FlatList data={diaries} renderItem={_renderItem} keyExtractor={(item) => item.id} />
     </Components.Container>

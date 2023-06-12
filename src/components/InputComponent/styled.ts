@@ -22,5 +22,6 @@ export const Components = {
     height: 48px;
     color: ${COLORS.black};
     font-size: 16px;
+    font-weight: bold;
   `,
 };

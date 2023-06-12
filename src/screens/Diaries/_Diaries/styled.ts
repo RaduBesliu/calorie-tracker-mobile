@@ -16,6 +16,7 @@ export const Components = {
 
   ItemCell: styled.View`
     width: 100%;
+    min-width: 90%;
     border: 1px solid ${COLORS.gold};
     margin-vertical: 16px;
     border-radius: 8px;

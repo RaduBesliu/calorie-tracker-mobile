@@ -13,6 +13,7 @@ const Meals = () => {
 
   const [meals, setMeals] = useState<Meal[]>([]);
 
+  // Refresh meals on focus
   useEffect(() => {
     console.log(isFocused);
     if (!isFocused) {
@@ -45,6 +46,11 @@ const Meals = () => {
     setMeals(meals.filter((item) => item.id !== meal.id));
   };
 
+  const _editMeal = async (meal: Meal) => {
+    // @ts-ignore
+    navigation.navigate('Edit Meal', { meal });
+  };
+
   const _renderItem = useCallback(
     ({ item }: { item: Meal }) => {
       return (
@@ -57,9 +63,12 @@ const Meals = () => {
           <Components.ItemCellFieldDescription
             color={COLORS.blue}>{`Fat: ${item.total_fat}g`}</Components.ItemCellFieldDescription>
           <Components.ItemCellFieldDescription color={COLORS.green}>{`Products: ${item.products
-            .map((product: Product) => product.name)
-            .join(' | ')}`}</Components.ItemCellFieldDescription>
+            .map((product: Product) => '\n   • ' + product.name)
+            .join('')}`}</Components.ItemCellFieldDescription>
           <Components.ButtonsWrapper hasMinwidth={true}>
+            <Components.Button color={COLORS.blue} onPress={() => _editMeal(item)}>
+              <Components.ButtonLabel>Edit</Components.ButtonLabel>
+            </Components.Button>
             <Components.Button color={COLORS.red} onPress={() => _deleteMeal(item)}>
               <Components.ButtonLabel>Delete</Components.ButtonLabel>
             </Components.Button>
