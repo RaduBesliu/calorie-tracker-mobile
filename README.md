@@ -28,16 +28,15 @@ This is a link to the [backlog roadmap](https://mirama.atlassian.net/jira/softwa
 ### 3. Features List
 -  User can create an account
 -  User can login
--  User can edit profile
+-  User can edit their profile
 -  User can see all products
 -  User can search for a product
 -  User can add a product
--  User can edit a self added product
 -  User can upvote / downvote a product
--  User can create self meals
+-  User can create their own meals
 -  User can see diary for a specific date
 -  User can add a meal to diary
--  User cand remove a meal from diary
+-  User can remove individual meal products from diary
 -  User can add products to diary
 -  User can remove products from diary
 
@@ -75,6 +74,7 @@ This is a link to the [backlog roadmap](https://mirama.atlassian.net/jira/softwa
 - Refactored tests with new error schema [here](https://github.com/hutanmihai/calorie-tracker-backend/commit/572ffa25d919c48d2224f5f5c27a66701dbe08de)
 
 #### 8.2. Code standards
+- For the mobile part of the application, [Prettier](https://prettier.io/) was used. The configuration file for prettier can be seen [here](https://github.com/RaduBesliu/calorie-tracker-mobile/blob/main/.prettierrc.js)
 - In backend we followed the [PEP8](https://www.python.org/dev/peps/pep-0008/) code style guide for Python. We made sure that every single line pushed to the repository follows the PEP8 guidelines by using the `pre-commit` tool which runs linters checkers for python code. Here are the [pre-commit configuration file](https://github.com/hutanmihai/calorie-tracker-backend/blob/main/.pre-commit-config.yaml) and the [flake8 file](https://github.com/hutanmihai/calorie-tracker-backend/blob/main/.flake8).
 - Besides the pre-commit tool, we also used GitHub Actions to run the linters checkers for python code. Here is the [workflow file](https://github.com/hutanmihai/calorie-tracker-backend/blob/main/.github/workflows/main.yaml) for GitHub Actions.
 - Inside the GitHub Actions, besides the linters, we also ran two more actions, one for running tests, and one for automated deployment on render.com.
