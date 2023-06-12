@@ -33,12 +33,17 @@ This is a link to the [backlog roadmap](https://mirama.atlassian.net/jira/softwa
 -  User can search for a product
 -  User can add a product
 -  User can upvote / downvote a product
--  User can create their own meals
+-  User can create their meals
+-  User can edit their meals
+-  User can delete their meals
 -  User can see diary for a specific date
 -  User can add a meal to diary
 -  User can remove individual meal products from diary
 -  User can add products to diary
 -  User can remove products from diary
+-  User can edit any diary (past or present)
+-  User can delete any of their diaries
+-  User can view a piechart of their detailed caloric consumption
 
  
 ### 4. UML Diagrams
