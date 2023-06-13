@@ -17,10 +17,11 @@ export const Components = {
     text-align: center;
   `,
 
-  TargetCaloriesText: styled.Text`
-    font-size: 24px;
+  TargetText: styled.Text`
+    font-size: 20px;
     color: ${COLORS.gold};
     text-align: center;
+    margin-vertical: 12px;
   `,
 
   PieChartWrapper: styled.View`
@@ -28,6 +29,7 @@ export const Components = {
     align-items: center;
     position: relative;
     padding-top: 24px;
+    margin-top: 64px;
   `,
 
   CaloriesText: styled.Text<{ offset?: string }>`
@@ -78,6 +80,7 @@ export const Components = {
 
   TextContainer: styled.View`
     height: 150px;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: center;
   `,
 };

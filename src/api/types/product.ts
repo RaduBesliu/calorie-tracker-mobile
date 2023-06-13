@@ -8,3 +8,8 @@ export interface Product {
   upvotes: number;
   downvotes: number;
 }
+
+export interface ProductVote {
+  id: string;
+  vote: number;
+}

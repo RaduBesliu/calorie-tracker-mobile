@@ -6,7 +6,7 @@ import { apiFetch } from '../../../api';
 import { Product } from '../../../api/types/product';
 import { FlatList } from 'react-native';
 import { Diary } from '../../../api/types/diary';
-import { addDays, format } from 'date-fns';
+import { format } from 'date-fns';
 import DatePicker from 'react-native-date-picker';
 
 const Diaries = () => {
