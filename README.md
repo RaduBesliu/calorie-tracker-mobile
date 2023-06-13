@@ -1,5 +1,17 @@
 # Calorie Tracker App
-@TODO APP DESCRIPTION
+The Calorie Tracker App is a mobile application developed by the team consisting of Beșliu Radu-Ștefan, Florea Mădălin-Alexandru, and Huțan Mihai-Alexandru. The app allows users to track their daily caloric intake and manage their nutrition goals. Users can register or login to their accounts and have the ability to edit their profile information. The app provides features such as storing body measurements and targets, upvoting or downvoting food items, and viewing a list of items along with their kcal values for protein, carbs, and fat.
+
+Users can add new food items to the app's database and search for specific products. The app also enables users to create and customize meal plans by combining multiple food items. Users can log their food intake for a specific date and view a diary that shows their caloric consumption. They can add or remove individual food items or entire meals from the diary and edit any past or present entries.
+
+In addition, the Calorie Tracker App offers a detailed caloric consumption pie chart, providing users with a visual representation of their nutrition breakdown. The app follows a user-centered approach, allowing users to access and utilize various screens such as Login, Home, Products, Meals, Diary, and Account.
+
+The app's backend is built using Python and the FastAPI framework, with data stored in a PostgreSQL database. Docker is used for containerization, and GitHub Actions automates testing and deployment processes. The frontend is developed in JavaScript using React Native.
+
+To ensure code quality and maintainability, the team followed coding standards such as PEP8 for Python and utilized tools like pre-commit, flake8, and GitHub Actions for linting, testing, and continuous integration. The team also employed design patterns such as the Repository Pattern to separate data access logic from business logic.
+
+During development, the team utilized AI tools like GitHub Copilot and ChatGPT for assistance in writing code and performing error analysis. Bug reports were addressed through pull requests, and the codebase includes extensive comments to aid in code understanding.
+
+Overall, the Calorie Tracker App provides a user-friendly and efficient way for individuals to track their caloric intake, manage their nutrition goals, and make informed decisions about their dietary habits.
 
 ## Team members
 - Beșliu Radu-Ștefan
@@ -44,6 +56,7 @@ This is a link to the [backlog roadmap](https://mirama.atlassian.net/jira/softwa
 -  User can edit any diary (past or present)
 -  User can delete any of their diaries
 -  User can view a piechart of their detailed caloric consumption
+-  User can view the progress of their daily calories and target weight
 
  
 ### 4. UML Diagrams
