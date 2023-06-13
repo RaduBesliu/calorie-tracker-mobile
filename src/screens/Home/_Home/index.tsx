@@ -42,19 +42,19 @@ const Home = () => {
     <Components.Container>
       <Components.TextContainer>
         <Components.WelcomeText>{`Welcome, ${user?.name ?? 'User'}!`}</Components.WelcomeText>
-        <Components.TargetCaloriesText>{`${(
-          (user?.target_calories ?? 2000) - (currentDiary?.total_calories ?? 0)
-        ).toFixed(2)} calories left until you reach the target of ${
+        <Components.TargetText>{`${((user?.target_calories ?? 2000) - (currentDiary?.total_calories ?? 0)).toFixed(
+          2,
+        )} calories left until you reach your target of ${
           user?.target_calories ?? 2000
-        }`}</Components.TargetCaloriesText>
+        } calories`}</Components.TargetText>
         <Progress.Bar
           progress={Math.min((currentDiary?.total_calories ?? 0) / (user?.target_calories ?? 2000), 1)}
           width={SCREEN_WIDTH - 40}
           color={COLORS.orange}
         />
-        <Components.TargetCaloriesText>{`${Math.abs((user?.target_weight ?? 80) - (user?.weight ?? 80)).toFixed(
+        <Components.TargetText>{`${Math.abs((user?.target_weight ?? 80) - (user?.weight ?? 80)).toFixed(
           2,
-        )}kg left until you reach your target of ${user?.target_weight ?? 80}kg`}</Components.TargetCaloriesText>
+        )}kg left until you reach your target of ${user?.target_weight ?? 80}kg`}</Components.TargetText>
         <Progress.Bar
           progress={
             Math.min(user?.weight ?? 80, user?.target_weight ?? 80) /
@@ -62,6 +62,8 @@ const Home = () => {
           }
           width={SCREEN_WIDTH - 40}
           color={COLORS.blue}
+          unfilledColor={(user?.weight ?? 80) > (user?.target_weight ?? 80) ? COLORS.red : COLORS.lightGreen}
+          borderWidth={0}
         />
       </Components.TextContainer>
       <Components.PieChartWrapper>
