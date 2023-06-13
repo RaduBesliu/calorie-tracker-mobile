@@ -21,6 +21,7 @@ export const Components = {
     font-size: 24px;
     color: ${COLORS.gold};
     text-align: center;
+    margin-vertical: 8px;
   `,
 
   PieChartWrapper: styled.View`
@@ -28,6 +29,7 @@ export const Components = {
     align-items: center;
     position: relative;
     padding-top: 24px;
+    margin-top: 64px;
   `,
 
   CaloriesText: styled.Text<{ offset?: string }>`
@@ -78,6 +80,7 @@ export const Components = {
 
   TextContainer: styled.View`
     height: 150px;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: center;
   `,
 };

@@ -9,6 +9,7 @@ import { SCREEN_WIDTH } from '../../../utils/dimensions';
 import { Diary } from '../../../api/types/diary';
 import { apiFetch } from '../../../api';
 import { format } from 'date-fns';
+import * as Progress from 'react-native-progress';
 
 const Home = () => {
   // Navigation variables
@@ -41,14 +42,30 @@ const Home = () => {
     <Components.Container>
       <Components.TextContainer>
         <Components.WelcomeText>{`Welcome, ${user?.name ?? 'User'}!`}</Components.WelcomeText>
-        <Components.TargetCaloriesText>
-          {(currentDiary?.total_calories ?? 0) >= (user?.target_calories ?? 1)
-            ? `You have reached your target calories of ${user?.target_calories}.`
-            : `You have not reached your target calories of ${user?.target_calories} yet.`}
-        </Components.TargetCaloriesText>
+        <Components.TargetCaloriesText>{`${(
+          (user?.target_calories ?? 2000) - (currentDiary?.total_calories ?? 0)
+        ).toFixed(2)} calories left until you reach the target of ${
+          user?.target_calories ?? 2000
+        }`}</Components.TargetCaloriesText>
+        <Progress.Bar
+          progress={Math.min((currentDiary?.total_calories ?? 0) / (user?.target_calories ?? 2000), 1)}
+          width={SCREEN_WIDTH - 40}
+          color={COLORS.orange}
+        />
+        <Components.TargetCaloriesText>{`${Math.abs((user?.target_weight ?? 80) - (user?.weight ?? 80)).toFixed(
+          2,
+        )}kg left until you reach your target of ${user?.target_weight ?? 80}kg`}</Components.TargetCaloriesText>
+        <Progress.Bar
+          progress={
+            Math.min(user?.weight ?? 80, user?.target_weight ?? 80) /
+            Math.max(user?.weight ?? 80, user?.target_weight ?? 80)
+          }
+          width={SCREEN_WIDTH - 40}
+          color={COLORS.blue}
+        />
       </Components.TextContainer>
       <Components.PieChartWrapper>
-        <Components.CaloriesText offset={'27%'}>Calories</Components.CaloriesText>
+        <Components.CaloriesText offset={'42%'}>Calories</Components.CaloriesText>
         <Components.CaloriesText offset={'35%'}>{currentDiary?.total_calories ?? 0}</Components.CaloriesText>
         <PieChart
           widthAndHeight={SCREEN_WIDTH / 2}
@@ -57,13 +74,13 @@ const Home = () => {
           coverRadius={0.9}
           coverFill={COLORS.black}
         />
-        <Components.AdditionalInfo color={COLORS.orange} offset={'65%'}>
+        <Components.AdditionalInfo color={COLORS.orange} offset={'80%'}>
           {`Carbs: ${currentDiary?.total_carbs ?? 0}g`}
         </Components.AdditionalInfo>
-        <Components.AdditionalInfo color={COLORS.lightGreen} offset={'72%'}>
+        <Components.AdditionalInfo color={COLORS.lightGreen} offset={'87%'}>
           {`Protein: ${currentDiary?.total_protein ?? 0}g`}
         </Components.AdditionalInfo>
-        <Components.AdditionalInfo color={COLORS.blue} offset={'79%'}>
+        <Components.AdditionalInfo color={COLORS.blue} offset={'94%'}>
           {`Fat: ${currentDiary?.total_fat ?? 0}g`}
         </Components.AdditionalInfo>
       </Components.PieChartWrapper>
