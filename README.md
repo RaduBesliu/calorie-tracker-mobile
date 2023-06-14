@@ -13,6 +13,9 @@ During development, the team utilized AI tools like GitHub Copilot and ChatGPT f
 
 Overall, the Calorie Tracker App provides a user-friendly and efficient way for individuals to track their caloric intake, manage their nutrition goals, and make informed decisions about their dietary habits.
 
+## Demo
+The demo for our app can be found [here](https://youtu.be/--KoGpuSNH0).
+
 ## Team members
 - Beșliu Radu-Ștefan
 - Florea Mădălin-Alexandru
