@@ -44,10 +44,13 @@ This is a link to the [backlog roadmap](https://mirama.atlassian.net/jira/softwa
 -  User can create an account
 -  User can login
 -  User can edit their profile
--  User can see all products
+![Edit profile](./documentation/EditProfile.gif)
 -  User can search for a product
+![Seach Product](./documentation/SearchProduct.gif)
 -  User can add a product
+![Create Product](./documentation/CreateProduct.gif)
 -  User can upvote / downvote a product
+![Vote Product](./documentation/UpDownVote.gif)
 -  User can create their meals
 -  User can edit their meals
 -  User can delete their meals
@@ -64,7 +67,7 @@ This is a link to the [backlog roadmap](https://mirama.atlassian.net/jira/softwa
  
 ### 4. UML Diagrams
 
-#### 4.1. Database Conceptual Model
+#### 4.1. Database Conceptual Model 
 ![Database Conceptual Model](./documentation/unnormalized_db.jpg)
 
 #### 4.2. Database ERD
