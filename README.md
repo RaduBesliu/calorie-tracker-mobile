@@ -58,17 +58,27 @@ This is a link to the [backlog roadmap](https://mirama.atlassian.net/jira/softwa
 -  User can create their meals
 -  User can edit their meals
 -  User can delete their meals
+
+![Create Delete Meals](./documentation/CreateDeleteMeal.gif)
 -  User can see diary for a specific date
+
+![View Diaries](./documentation/ViewDiaries.gif)
+
 -  User can add a meal to diary
--  User can remove individual meal products from diary
 -  User can add products to diary
+
+![Add To Diary](./documentation/AddToDiary.gif)
+-  User can remove individual meal products from diary
 -  User can remove products from diary
 -  User can edit any diary (past or present)
 -  User can delete any of their diaries
+
+![Delete Diary](./documentation/DeleteDiary.gif)
 -  User can view a piechart of their detailed caloric consumption
 -  User can view the progress of their daily calories and target weight
 
- 
+![Progress](./documentation/Progress.gif) &nbsp;&nbsp; ![Progress](./documentation/DeleteDiary.gif)
+
 ### 4. UML Diagrams
 
 #### 4.1. Database Conceptual Model 
