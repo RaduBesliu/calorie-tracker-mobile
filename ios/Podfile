@@ -88,5 +88,3 @@ target 'CalorieTracker' do
     end
   end
 end
-
-pod 'GoogleSignIn'
